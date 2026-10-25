@@ -21,13 +21,14 @@ export interface FilmSource {
   poster: string;
 }
 
-export function playFilm(src: FilmSource): Promise<void> {
+/** `armMs`: how long skip input is ignored at the start (the Enter that closed the last line must not skip the film). */
+export function playFilm(src: FilmSource, armMs = 3000): Promise<void> {
   console.info('[film] reduced motion:', RM, '(the film is replaced by a key frame when this is true)');
   return new Promise((resolve) => {
     const box = document.createElement('div');
     box.className = 'film-box';
     box.setAttribute('role', 'dialog');
-    box.setAttribute('aria-label', 'Perde sonu filmi');
+    box.setAttribute('aria-label', 'Film');
     const skip = document.createElement('button');
     skip.type = 'button';
     skip.className = 'cine-skip film-skip';
@@ -36,7 +37,7 @@ export function playFilm(src: FilmSource): Promise<void> {
     let video: HTMLVideoElement | null = null;
     let done = false;
     // the Enter that closed the last line of dialogue must not skip the film: input counts only after a moment
-    const armedAt = performance.now() + 3000;
+    const armedAt = performance.now() + armMs;
     const finish = (force = false) => {
       if (done || (!force && performance.now() < armedAt)) return;
       done = true;

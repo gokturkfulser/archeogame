@@ -1,6 +1,7 @@
 import { Composition, Folder } from "remotion";
 import { ActEnding } from "./ActEnding/ActEnding";
 import { actEndingSchema, type ActEndingProps } from "./ActEnding/schema";
+import { KadesTreaty, kadesSchema, type KadesProps } from "./Beat/KadesTreaty";
 
 /* The act ending is one template: every city gets the same film, driven by these props (city, coin pieces, colours, map
    position, guide animal, next act). Efes and Hattuşa so far. The vertical version is for social media. */
@@ -52,9 +53,20 @@ const SIZES = {
   Vertical: { width: 1080, height: 1920 },
 };
 
+/* Story beats: short films for a big moment that does not depend on the player. */
+const KADES: KadesProps = {
+  title: "Kadeş Antlaşması",
+  caption: "Yaklaşık M.Ö. 1259 · bilinen en eski yazılı barış antlaşmalarından biri",
+  backdrop: { sky: "img/h-yazili-sky.webp", mid: "img/h-yazili-mid.webp", fg: "img/h-yazili-fg.webp" },
+};
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Folder name="Beats">
+        <Composition id="Beat-KadesTreaty" component={KadesTreaty} schema={kadesSchema} durationInFrames={210} fps={30} width={1920} height={1080} defaultProps={KADES} />
+        <Composition id="Beat-KadesTreaty-Vertical" component={KadesTreaty} schema={kadesSchema} durationInFrames={210} fps={30} width={1080} height={1920} defaultProps={KADES} />
+      </Folder>
       <Folder name="ActEnding">
         {[
           ["Efes", EFES],

@@ -5,10 +5,12 @@ import { Ctx, TAU, clamp, lamp, sstep, stage, wait, withPar } from '../../../eng
 import { pluck, rumble } from '../../../engine/audio';
 import { clearGoal, dialogOpen, say, setGoal } from '../../../engine/dialogue';
 import { award, card } from '../../../engine/hud';
-import { drawStagPose, perkStag, stag } from '../../../engine/kurunta';
+import { drawStagPose, perkStag } from '../../../engine/kurunta';
 import { LayerSpec } from '../../../engine/layers';
 import { dot, glowDisk, makeStars, skyFill, stars } from '../../../engine/paper';
 import type { Hotspot, Scene } from '../../../engine/scene';
+import { playFilm } from '../../../engine/cinematic/play-film';
+import { assetUrl } from '../../../engine/url';
 import { finale } from '../finale';
 import { glyph, god } from '../glyphs';
 import { TEXT } from '../text';
@@ -46,8 +48,6 @@ export class Yazili implements Scene {
   private skipT = 0;
   private active = false;
   private reveal = 0; // the stag-god relief
-  private treaty = 0; // 0..1 meeting of the two rulers
-  private swap = 0; // tablets exchanged, 0..1
   private pulse = 0; // all gods glow together
   private allDone: (() => void) | null = null;
 
@@ -230,231 +230,6 @@ export class Yazili implements Scene {
     g.restore();
   }
 
-  /** The two rulers of the treaty as glowing shadow puppets, drawn above the darkness. */
-  fx = (g: Ctx) => {
-    if (this.treaty <= 0) return;
-    const t = sstep(clamp(this.treaty, 0, 1));
-    const base = 700;
-    g.save();
-    g.globalAlpha = clamp(this.treaty * 3, 0, 1);
-    g.globalCompositeOperation = 'screen';
-    const gl = g.createRadialGradient(800, 560, 20, 800, 560, 340);
-    gl.addColorStop(0, `rgba(255,214,130,${0.35 + this.swap * 0.3})`);
-    gl.addColorStop(1, 'rgba(255,170,80,0)');
-    g.fillStyle = gl;
-    dot(g, 800, 560, 340);
-    g.globalCompositeOperation = 'source-over';
-    this.ruler(g, 330 + t * 370, base, 1, 'hatti');
-    this.ruler(g, 1270 - t * 370, base, -1, 'misir');
-    // the silver tablets change hands
-    const lx = 330 + t * 370 + 63;
-    const rx = 1270 - t * 370 - 63;
-    const sw = sstep(clamp(this.swap, 0, 1));
-    this.tablet(g, lx + (rx - lx) * sw, 584 - Math.sin(sw * Math.PI) * 44);
-    this.tablet(g, rx + (lx - rx) * sw, 584 - Math.sin(sw * Math.PI) * 44);
-    g.restore();
-  };
-
-  private ruler(g: Ctx, x: number, base: number, face: number, kind: 'hatti' | 'misir') {
-    const NAVY = '#1b1646';
-    const GOLD = 'rgba(255,214,140,.92)';
-    g.save();
-    g.translate(x, base);
-    g.scale(face * 0.95, 0.95);
-    g.lineJoin = 'round';
-    g.lineCap = 'round';
-    const fillGold = () => {
-      g.fillStyle = NAVY;
-      g.strokeStyle = GOLD;
-      g.lineWidth = 3;
-    };
-    const dots = (y: number, x0: number, x1: number, step: number) => {
-      g.fillStyle = GOLD;
-      for (let dx = x0; dx <= x1; dx += step) dot(g, dx, y, 2.2);
-    };
-    fillGold();
-    if (kind === 'hatti') {
-      // long fringed robe with punched bands
-      g.beginPath();
-      g.moveTo(-30, -150);
-      g.lineTo(30, -150);
-      g.lineTo(48, 0);
-      for (let dx = 48; dx > -48; dx -= 12) {
-        g.lineTo(dx - 6, 11);
-        g.lineTo(dx - 12, 0);
-      }
-      g.closePath();
-      g.fill();
-      g.stroke();
-      g.strokeStyle = GOLD;
-      for (const by of [-20, -62, -104]) {
-        g.beginPath();
-        g.moveTo(-36 + (by + 150) * 0.0, by);
-        g.lineTo(36 + (by + 150) * 0.08, by);
-        g.stroke();
-      }
-      dots(-41, -34, 34, 11);
-      dots(-83, -30, 30, 11);
-      // cape over the shoulders
-      g.fillStyle = '#2b2470';
-      g.beginPath();
-      g.moveTo(-36, -150);
-      g.quadraticCurveTo(0, -178, 36, -150);
-      g.quadraticCurveTo(32, -118, 0, -114);
-      g.quadraticCurveTo(-32, -118, -36, -150);
-      g.fill();
-      g.stroke();
-      // staff with a curled top in the far hand
-      g.strokeStyle = GOLD;
-      g.lineWidth = 4;
-      g.beginPath();
-      g.moveTo(-44, 0);
-      g.lineTo(-44, -112);
-      g.arc(-36, -118, 9, Math.PI, Math.PI * 2.6);
-      g.stroke();
-    } else {
-      // pleated kilt, bare chest with a wide gold collar
-      fillGold();
-      g.beginPath();
-      g.moveTo(-26, -100);
-      g.lineTo(26, -100);
-      g.lineTo(36, -36);
-      g.lineTo(-36, -36);
-      g.closePath();
-      g.fill();
-      g.stroke();
-      g.lineWidth = 1.6;
-      for (const px of [-20, -8, 4, 16]) {
-        g.beginPath();
-        g.moveTo(px, -98);
-        g.lineTo(px * 1.3, -38);
-        g.stroke();
-      }
-      g.lineWidth = 3;
-      g.beginPath();
-      g.moveTo(-24, -100);
-      g.lineTo(-30, -152);
-      g.lineTo(30, -152);
-      g.lineTo(24, -100);
-      g.closePath();
-      g.fill();
-      g.stroke();
-      g.lineWidth = 7;
-      g.beginPath();
-      g.ellipse(0, -152, 30, 20, 0, 0.05 * Math.PI, 0.95 * Math.PI);
-      g.stroke();
-      dots(-128, -22, 22, 11);
-      // legs and sandals
-      g.strokeStyle = NAVY;
-      g.lineWidth = 15;
-      g.beginPath();
-      g.moveTo(-12, -36);
-      g.lineTo(-12, -6);
-      g.moveTo(14, -36);
-      g.lineTo(16, -6);
-      g.stroke();
-      g.strokeStyle = GOLD;
-      g.lineWidth = 4;
-      g.beginPath();
-      g.moveTo(-22, 0);
-      g.lineTo(0, 0);
-      g.moveTo(8, 0);
-      g.lineTo(30, 0);
-      g.stroke();
-      // crook
-      g.lineWidth = 4;
-      g.beginPath();
-      g.moveTo(-44, 0);
-      g.lineTo(-44, -120);
-      g.quadraticCurveTo(-44, -136, -30, -134);
-      g.stroke();
-    }
-    // arm reaching out to hold the tablet
-    g.strokeStyle = NAVY;
-    g.lineWidth = 13;
-    g.beginPath();
-    g.moveTo(20, -138);
-    g.lineTo(62, -122);
-    g.stroke();
-    g.fillStyle = NAVY;
-    g.strokeStyle = GOLD;
-    g.lineWidth = 2.5;
-    dot(g, 66, -122, 7);
-    g.stroke();
-    // head in profile with a big nose, a gold eye, and the headdress
-    fillGold();
-    g.beginPath();
-    g.arc(0, kind === 'hatti' ? -182 : -176, 22, 0, TAU);
-    g.fill();
-    g.stroke();
-    const hy = kind === 'hatti' ? -182 : -176;
-    g.beginPath();
-    g.moveTo(19, hy - 4);
-    g.lineTo(33, hy + 6);
-    g.lineTo(19, hy + 8);
-    g.closePath();
-    g.fill();
-    g.stroke();
-    g.fillStyle = GOLD;
-    dot(g, 9, hy - 3, 2.6);
-    if (kind === 'hatti') {
-      fillGold();
-      g.beginPath();
-      g.moveTo(-17, -196);
-      g.lineTo(-8, -262);
-      g.lineTo(12, -266);
-      g.lineTo(18, -196);
-      g.closePath();
-      g.fill();
-      g.stroke();
-      g.lineWidth = 4;
-      g.beginPath();
-      g.moveTo(14, -236);
-      g.quadraticCurveTo(38, -244, 30, -268);
-      g.stroke();
-      dots(-214, -8, 10, 9);
-    } else {
-      g.fillStyle = '#b83a2a';
-      g.strokeStyle = GOLD;
-      g.lineWidth = 3;
-      g.beginPath();
-      g.moveTo(-18, -190);
-      g.lineTo(-12, -224);
-      g.lineTo(16, -224);
-      g.lineTo(20, -190);
-      g.closePath();
-      g.fill();
-      g.stroke();
-      g.fillStyle = '#ece6f6';
-      g.beginPath();
-      g.moveTo(-10, -224);
-      g.lineTo(-6, -288);
-      g.quadraticCurveTo(2, -300, 10, -288);
-      g.lineTo(14, -224);
-      g.closePath();
-      g.fill();
-      g.stroke();
-    }
-    g.restore();
-  }
-
-  private tablet(g: Ctx, x: number, y: number) {
-    g.save();
-    g.fillStyle = '#dfe6f4';
-    g.strokeStyle = '#ffffff';
-    g.lineWidth = 2;
-    g.shadowColor = 'rgba(190,220,255,.9)';
-    g.shadowBlur = 18;
-    g.beginPath();
-    g.roundRect(x - 22, y - 32, 44, 64, 5);
-    g.fill();
-    g.stroke();
-    g.shadowBlur = 0;
-    g.fillStyle = 'rgba(80,100,140,.6)';
-    for (let r = 0; r < 5; r++) g.fillRect(x - 15, y - 22 + r * 11, 30, 3);
-    g.restore();
-  }
-
   update = (dt: number) => {
     this.pulse = Math.max(0, this.pulse - dt * 0.5);
     for (let k = 0; k < N; k++) if (k < this.next) this.lit[k] = Math.min(1, this.lit[k] + dt * 3);
@@ -522,8 +297,6 @@ export class Yazili implements Scene {
     this.next = 0;
     this.charge = 0;
     this.reveal = 0;
-    this.treaty = 0;
-    this.swap = 0;
     this.pulse = 0;
     await say(T.intro);
     setGoal(T.goal);
@@ -542,19 +315,11 @@ export class Yazili implements Scene {
     await this.tween((v) => (this.reveal = v), 2.2);
     perkStag();
     await say(T.plaque);
-    // the treaty of Kadesh: Deniz and Kurunta step aside to the edges so the two rulers can meet in the middle
-    lamp.tx = 1420;
-    lamp.ty = 520;
-    stag.park = 230;
-    await this.tween((v) => (this.treaty = v), 3.2);
+    // the treaty of Kadesh is a film (video/src/Beat/KadesTreaty.tsx): the first line sets the scene, the film plays, the rest follows
     await say(T.treaty.slice(0, 1));
-    await this.tween((v) => (this.swap = v), 2.0);
+    await playFilm({ webm: assetUrl('hattusa/kades.webm'), mp4: assetUrl('hattusa/kades.mp4'), poster: assetUrl('hattusa/kades-poster.webp') }, 1500);
     this.pulse = 1;
-    pluck(392, 0, 0.3, 0.8, true);
-    pluck(587, 0.15, 0.25, 0.8, true);
     await say(T.treaty.slice(1));
-    await this.tween((v) => (this.treaty = 1 - v), 1.2);
-    stag.park = null;
     await award('tanri');
     await card(T.card.title, T.card.facts, 'tanri');
     await finale();
