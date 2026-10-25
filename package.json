@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "playwright test",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name perde-perde-anadolu --branch main",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name perde-perde-anadolu --branch production",
     "deploy:preview": "npm run build && wrangler pages deploy dist --project-name perde-perde-anadolu --branch preview"
   },
   "devDependencies": {
