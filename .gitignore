@@ -1,0 +1,10 @@
+node_modules
+dist
+tests/screenshots
+tests/screenshots-before
+test-results
+playwright-report
+assets-src/**/*.png
+assets-src/**/*.jpg
+assets-src/**/*.jpeg
+assets-src/**/*.webp

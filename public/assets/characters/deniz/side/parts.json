@@ -1,0 +1,157 @@
+{
+ "head": {
+  "file": "characters/deniz/side/head.webp",
+  "w": 99,
+  "h": 116,
+  "pivot": [
+   64.1,
+   78.1
+  ],
+  "eye": [
+   78.9,
+   37.3
+  ]
+ },
+ "torso": {
+  "file": "characters/deniz/side/torso.webp",
+  "w": 73,
+  "h": 181,
+  "pivot": [
+   45.8,
+   160.8
+  ],
+  "neck": [
+   40.5,
+   14.1
+  ],
+  "shoulder": [
+   19.5,
+   16.4
+  ]
+ },
+ "upperArm": {
+  "file": "characters/deniz/side/upperArm.webp",
+  "w": 39,
+  "h": 83,
+  "pivot": [
+   14.9,
+   8.6
+  ],
+  "tip": [
+   29,
+   74.5
+  ]
+ },
+ "upperArmBack": {
+  "file": "characters/deniz/side/upperArmBack.webp",
+  "w": 39,
+  "h": 84,
+  "pivot": [
+   16.1,
+   8.7
+  ],
+  "tip": [
+   29.9,
+   76.2
+  ]
+ },
+ "foreArmLight": {
+  "file": "characters/deniz/side/foreArmLight.webp",
+  "w": 108,
+  "h": 30,
+  "pivot": [
+   7.2,
+   13.4
+  ],
+  "lens": [
+   103.7,
+   11.5
+  ],
+  "grip": [
+   75.1,
+   19.2
+  ]
+ },
+ "foreArmFree": {
+  "file": "characters/deniz/side/foreArmFree.webp",
+  "w": 89,
+  "h": 25,
+  "pivot": [
+   6.6,
+   10.7
+  ],
+  "tip": [
+   84,
+   10.3
+  ]
+ },
+ "thigh": {
+  "file": "characters/deniz/side/thigh.webp",
+  "w": 46,
+  "h": 144,
+  "pivot": [
+   24.4,
+   15.4
+  ],
+  "tip": [
+   21.1,
+   134.5
+  ]
+ },
+ "shin": {
+  "file": "characters/deniz/side/shin.webp",
+  "w": 60,
+  "h": 145,
+  "pivot": [
+   28.1,
+   13.3
+  ],
+  "tip": [
+   22.2,
+   104.9
+  ],
+  "sole": [
+   27.9,
+   142.6
+  ]
+ },
+ "thighBack": {
+  "file": "characters/deniz/side/thighBack.webp",
+  "w": 46,
+  "h": 144,
+  "pivot": [
+   26.1,
+   15.4
+  ],
+  "tip": [
+   22.5,
+   134.5
+  ]
+ },
+ "shinBack": {
+  "file": "characters/deniz/side/shinBack.webp",
+  "w": 60,
+  "h": 145,
+  "pivot": [
+   24.6,
+   12.9
+  ],
+  "tip": [
+   19.4,
+   104.5
+  ],
+  "sole": [
+   25.2,
+   141.9
+  ]
+ },
+ "pelvis": {
+  "file": "characters/deniz/side/pelvis.webp",
+  "w": 65,
+  "h": 78,
+  "pivot": [
+   32.5,
+   3
+  ]
+ }
+}

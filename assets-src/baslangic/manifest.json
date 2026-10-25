@@ -1,0 +1,34 @@
+{
+ "style": "Layered cut paper in a backlit lightbox crossed with Karagoz shadow theatre; palette indigo, lapis, Iznik turquoise, madder red, saffron, gold; no text.",
+ "generations": [
+  {
+   "file": "room-wall.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "cd814322-f5d2-4c9c-a593-57810158e645",
+   "purpose": "Opening scene: grandfather’s study, back wall and floor (21:9)",
+   "resolution": "2k"
+  },
+  {
+   "file": "room-mid.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "3e49d6f5-da4c-4950-a515-900dbd27847d",
+   "purpose": "Opening scene: desk, ladder and trunk layer (transparent)",
+   "resolution": "2k",
+   "background": "transparent"
+  },
+  {
+   "file": "room-fg.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "b658e3c9-42f7-4c4b-936c-d72800578068",
+   "purpose": "Opening scene: dust sheets and cobwebs foreground (transparent)",
+   "resolution": "2k",
+   "background": "transparent"
+  }
+ ]
+}

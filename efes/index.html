@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Perde Perde Anadolu: Efes’in Arısı</title>
+<meta name="description" content="Perde Perde Anadolu, birinci perde: Deniz ve Melissa Efes’te el feneri ışığıyla sikkenin dört parçasını arıyor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/engine/engine.css">
+</head>
+<body>
+<canvas id="stage" aria-label="Efes’te geçen gölge oyunu sahnesi"></canvas>
+<div id="hotspots"></div>
+
+<header class="hud">
+  <div class="mark"><span class="series">Perde Perde Anadolu</span><span class="where" id="where">Efes</span></div>
+  <div class="hud-right">
+    <a class="iconbtn" id="mapLink" href="/" aria-label="Haritaya dön"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 7z"/><path d="M9 4v13M15 7v12.5"/></svg></a>
+    <div id="coins" role="img" aria-label="Efes sikkesinin parçaları: 0 / 4"></div>
+    <button class="iconbtn" id="sound" aria-label="Sesi kapat" aria-pressed="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path class="w1" d="M16.5 8.5a5 5 0 0 1 0 7"/><path class="w2" d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="goal" hidden><span id="goalText"></span><button class="gbtn alt" id="replayBtn" hidden>Ezgiyi dinle</button><button class="gbtn" id="hintBtn">İpucu</button></div>
+<div id="tray" hidden aria-label="Heykeller"></div>
+
+<div id="sceneTitle" aria-hidden="true"><span class="num"></span><span class="name"></span></div>
+
+<section id="dialog" hidden aria-live="polite">
+  <div class="portrait" id="portrait"></div>
+  <div class="dbody"><div class="who" id="who"></div><p id="line"></p></div>
+  <button id="next">Devam</button>
+</section>
+
+<div class="overlay" id="card" hidden role="dialog" aria-modal="true" aria-labelledby="cardTitle">
+  <div class="card">
+    <p class="k">Efes Defteri</p>
+    <h2 id="cardTitle"></h2>
+    <div id="cardFacts"></div>
+    <div class="piece" id="cardPiece"><canvas width="128" height="128"></canvas><span></span></div>
+    <button class="go" id="cardGo">Devam et</button>
+  </div>
+</div>
+
+<div class="overlay" id="final" hidden role="dialog" aria-modal="true" aria-labelledby="finalTitle">
+  <div class="card">
+    <p class="k">Birinci perde kapandı</p>
+    <h2 id="finalTitle">Efes sikkesi tamamlandı</h2>
+    <canvas id="coinCanvas" width="400" height="400" aria-label="Dönen Efes sikkesi: bir yüzünde arı, öbür yüzünde geyik ve palmiye"></canvas>
+    <p class="f">Bir yüzde Efes’in arısı, öbür yüzde Artemis’in geyiği ve palmiyesi. Sıradaki perdeler:</p>
+    <ul class="next-acts" id="nextActs"></ul>
+    <a class="go" id="toMap" href="/">Haritaya dön</a> <button class="go" id="again">Baştan oyna</button>
+  </div>
+</div>
+
+<div class="curtain l closed" id="curL"></div>
+<div class="curtain r closed" id="curR"></div>
+
+<div id="title" style="--title-art:url(/assets/efes/title.webp)">
+  <div class="title-top">
+    <p class="t-series">Perde Perde Anadolu</p>
+    <h1>Efes’in Arısı</h1>
+    <p class="t-act">Birinci perde</p>
+  </div>
+  <div class="title-bottom">
+    <button id="start">Perdeyi aç</button>
+    <p class="t-note">Sesi aç. Fareni ya da parmağını gezdir; Deniz el fenerini oraya doğrultur, ışık saklı olanı gösterir.</p>
+    <p class="t-rotate">Telefonu yan çevirirsen sahne büyür.</p>
+  </div>
+</div>
+
+<script type="module" src="/src/acts/efes/index.ts"></script>
+</body>
+</html>

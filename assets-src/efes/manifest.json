@@ -1,0 +1,270 @@
+{
+ "note": "Prompts are the subject part; every prompt also carried the shared art direction in \"style\". Full prompt text is kept in the Higgsfield job history under the job id. Deniz parts, portraits and the flashlight are listed in assets-src/characters/manifest.json.",
+ "style": "Layered cut paper in a backlit lightbox crossed with Karagoz shadow theatre: visible paper fibre, crisp knife-cut edges, translucent coloured hide, punched perforations that glow; palette deep indigo, lapis, Iznik turquoise, madder red, saffron, warm gold; flat readable silhouettes; no photorealism, no text.",
+ "generations": [
+  {
+   "file": "../characters/melissa-parts.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "dc4ae27d-00ab-4963-9e63-ad6c522294aa",
+   "date": "2026-10-25",
+   "purpose": "Melissa rig parts (transparent): body, forewing, hindwing",
+   "prompt": "Body without wings in side profile, one forewing and one hindwing standing upright with rivet holes",
+   "background": "transparent",
+   "reference_job": "765d9fc2-f3ba-4b2d-8c14-01dd27181cee"
+  },
+  {
+   "file": "liman-sky.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "8bedd326-fcfc-423f-adc2-4033124fc057",
+   "date": "2026-10-25",
+   "purpose": "Act 1 scene 1 sky (21:9)",
+   "prompt": "Dusk torn-paper cloud strata, indigo to molten orange, low saffron sun at 67% x 66%, punched stars, birds; sky only"
+  },
+  {
+   "file": "tiyatro-sky.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "5df1dcc9-beb6-4283-8f85-239dcdc30e86",
+   "date": "2026-10-25",
+   "purpose": "Act 1 scene 2 sky (21:9)",
+   "prompt": "Night sky, lapis strata, punched stars, Milky Way, full moon at 81% x 17%; sky only"
+  },
+  {
+   "file": "kutuphane-sky.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "1fe7fb4f-8ca2-421c-977a-2e0c9df02aff",
+   "date": "2026-10-25",
+   "purpose": "Act 1 scene 3 sky (21:9)",
+   "prompt": "Dusk sky, indigo to ember, golden radiance behind the library at 50% x 48%; sky only"
+  },
+  {
+   "file": "artemis-sky.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "9cfe0dea-755d-40be-9982-1d5d96df109d",
+   "date": "2026-10-25",
+   "purpose": "Act 1 scene 4 sky / pale shadow wall (21:9)",
+   "prompt": "Very light ivory-to-peach paper sky, pale sun with rays at 81% x 18%; sky only"
+  },
+  {
+   "file": "coin-bee.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "job": "3f79ed89-d26a-4020-a200-cae776ddefa1",
+   "date": "2026-10-25",
+   "purpose": "Coin piece: bee",
+   "prompt": "Ephesian gold coin, beaded rim, embossed bee from above",
+   "background": "transparent"
+  },
+  {
+   "file": "coin-stag.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "job": "d5d08963-6be2-44c2-8e30-5560ef229d86",
+   "date": "2026-10-25",
+   "purpose": "Coin piece: stag",
+   "prompt": "Ephesian gold coin, embossed stag",
+   "background": "transparent"
+  },
+  {
+   "file": "coin-palm.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "job": "a8bb2160-216c-4b6c-a3e8-acbb3f4a55e8",
+   "date": "2026-10-25",
+   "purpose": "Coin piece: palm",
+   "prompt": "Ephesian gold coin, embossed date palm",
+   "background": "transparent"
+  },
+  {
+   "file": "coin-blank.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "job": "9b0400ee-7314-4ecd-9553-56892baf0056",
+   "date": "2026-10-25",
+   "purpose": "Coin piece: blank for the EF letters (drawn in code)",
+   "prompt": "Ephesian gold coin, empty field with fine ring and laurel, no emblem",
+   "background": "transparent"
+  },
+  {
+   "file": "coin-reverse.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "job": "6b846f44-d9ae-4975-b547-5f97d2805aa2",
+   "date": "2026-10-25",
+   "purpose": "Finale coin reverse: stag and palm",
+   "prompt": "Ephesian gold coin reverse, stag beside palm",
+   "background": "transparent"
+  },
+  {
+   "file": "liman-far.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "9e0bd912-8c19-44d2-aaf4-47af078717d3",
+   "date": "2026-10-25",
+   "purpose": "Act 1 liman far layer (transparent, 21:9)",
+   "prompt": "Pink hills, turquoise harbour with sun glitter and merchant ship",
+   "background": "transparent"
+  },
+  {
+   "file": "liman-mid.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "ed847b5a-d954-4d88-ad7d-963dd9dcf50c",
+   "date": "2026-10-25",
+   "purpose": "Act 1 liman mid layer (transparent, 21:9)",
+   "prompt": "Arkadiane colonnade with glowing lanterns, olive, paved street",
+   "background": "transparent"
+  },
+  {
+   "file": "liman-fg.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "0be24852-07dc-47b0-b3aa-58785327428a",
+   "date": "2026-10-25",
+   "purpose": "Act 1 liman fg layer (transparent, 21:9)",
+   "prompt": "Cypresses, poppies, grass silhouettes",
+   "background": "transparent"
+  },
+  {
+   "file": "tiyatro-far.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "4cb875df-f80f-4c2d-a375-43fa1d4cc753",
+   "date": "2026-10-25",
+   "purpose": "Act 1 tiyatro far layer (transparent, 21:9)",
+   "prompt": "Panayir Dagi ridge silhouettes with pines",
+   "background": "transparent"
+  },
+  {
+   "file": "tiyatro-mid.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "a1f3fd78-a546-47bd-813c-3ab384ae430e",
+   "date": "2026-10-25",
+   "purpose": "Act 1 tiyatro mid layer (transparent, 21:9)",
+   "prompt": "Corinthian columns left and right, orchestra paving",
+   "background": "transparent"
+  },
+  {
+   "file": "tiyatro-fg.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "ddff3497-2f4f-489d-acd5-7c971755ace9",
+   "date": "2026-10-25",
+   "purpose": "Act 1 tiyatro fg layer (transparent, 21:9)",
+   "prompt": "Pine branch, cypress, broken block, amphora, grass",
+   "background": "transparent"
+  },
+  {
+   "file": "kutuphane-far.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "ff7814f6-9dfb-42e8-b42a-1c7a6396c788",
+   "date": "2026-10-25",
+   "purpose": "Act 1 kutuphane far layer (transparent, 21:9)",
+   "prompt": "Violet hills with ruined arch (distant library painted out in processing)",
+   "background": "transparent"
+  },
+  {
+   "file": "kutuphane-mid.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "06c1d225-2535-4d87-936d-8e360a0ce925",
+   "date": "2026-10-25",
+   "purpose": "Act 1 kutuphane mid layer (transparent, 21:9)",
+   "prompt": "Ruins flanking an empty centre, olive tree, plaza",
+   "background": "transparent"
+  },
+  {
+   "file": "kutuphane-fg.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "7147be2e-0285-45a3-97ae-aa2765d5ca0e",
+   "date": "2026-10-25",
+   "purpose": "Act 1 kutuphane fg layer (transparent, 21:9)",
+   "prompt": "Broken marble, acanthus, agave, grass",
+   "background": "transparent"
+  },
+  {
+   "file": "artemis-far.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "c65899bf-382e-45cc-80b0-7dd8ae2c94c9",
+   "date": "2026-10-25",
+   "purpose": "Act 1 artemis far layer (transparent, 21:9)",
+   "prompt": "Pale rose hills, citadel and minaret",
+   "background": "transparent"
+  },
+  {
+   "file": "artemis-mid.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "de2a5059-d787-4b8d-9273-12297421f90c",
+   "date": "2026-10-25",
+   "purpose": "Act 1 artemis mid layer (transparent, 21:9)",
+   "prompt": "Marsh water, the lone column with stork nest",
+   "background": "transparent"
+  },
+  {
+   "file": "artemis-fg.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "8a627990-1754-4cd0-83a3-e2702c71ffdc",
+   "date": "2026-10-25",
+   "purpose": "Act 1 artemis fg layer (transparent, 21:9)",
+   "prompt": "Reeds and cattails, dragonfly, grass",
+   "background": "transparent"
+  },
+  {
+   "file": "title-modern-gpt.png",
+   "model": "gpt_image_2",
+   "quality": "high",
+   "resolution": "2k",
+   "job": "f1f6ce28-56b5-481e-9356-5c7e556ef417",
+   "date": "2026-10-25",
+   "purpose": "Title key art (USED): modern Deniz with flashlight beam, Melissa, Library of Celsus",
+   "elements": [
+    "deniz-modern",
+    "melissa-puppet"
+   ]
+  },
+  {
+   "file": "title-modern-nano.png",
+   "model": "nano_banana_pro (served as nano_banana_2)",
+   "resolution": "2k",
+   "job": "b243ddec-c11d-4af4-b54a-07d0170a272a",
+   "date": "2026-10-25",
+   "purpose": "Title key art alternative, truer multi-layer paper look (not used)",
+   "elements": [
+    "deniz-modern",
+    "melissa-puppet"
+   ]
+  }
+ ]
+}

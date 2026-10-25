@@ -1,0 +1,382 @@
+{
+ "note": "Deniz is now the MODERN flashlight design (approved concept modern/6-photo-styled.png). The earlier lamp-era sheets are kept as history. Rig: side parts are in public/assets/characters/deniz/side, front parts (cut from modern-parts-A.png, the three-quarter approved sheet) in .../front; both are built by scripts/process-assets.mjs (jobs deniz-side-rig and deniz-parts). Old interim side jobs and files were removed.",
+ "elements": {
+  "deniz-puppet": {
+   "id": "d9353b01-d04a-4f2c-8f4f-5631fe6e74e3",
+   "from": "deniz-2-karagoz.png"
+  },
+  "deniz-face": {
+   "id": "471b1b5f-abad-487e-a1db-eabecde0ddc1",
+   "from": "deniz-1-storybook.png"
+  },
+  "melissa-puppet": {
+   "id": "2666edaa-5ee9-43ea-9e9a-9238a487ccd2",
+   "from": "melissa-2-karagoz.png"
+  },
+  "melissa-face": {
+   "id": "5acbf41d-a40d-49d9-aa29-0712669de4f1",
+   "from": "melissa-1-papercut.png"
+  },
+  "deniz-modern": {
+   "id": "34c1a2b6-e6a2-448d-8616-fec23be3e5c6",
+   "from": "modern/6-photo-styled.png (job f8c2453c-ac5f-4b70-8a5d-3a3095faf226)"
+  },
+  "deniz-side": {
+   "id": "747dedf9-0e75-4b5c-ab47-5463451aa8cd",
+   "from": "side-ref-A.png (job 2020191a-12d1-465a-b45c-7dd453563253), approved by the user as the side-profile reference"
+  }
+ },
+ "generations": [
+  {
+   "file": "deniz-A-gpt.png",
+   "model": "gpt_image_2_5",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "52915c21-6a5d-4746-93f2-15735e3827ce",
+   "date": "2026-10-25",
+   "purpose": "Deniz sheet, first pass (low quality, superseded)"
+  },
+  {
+   "file": "deniz-B-nano.png",
+   "model": "nano_banana_pro (served as nano_banana_2)",
+   "resolution": "2k",
+   "job": "82a34ca4-faa4-4c8c-a3c6-8197b328ae86",
+   "date": "2026-10-25",
+   "purpose": "Deniz sheet, comparison; stiff, helmet-like hair"
+  },
+  {
+   "file": "melissa-A-gpt.png",
+   "model": "gpt_image_2_5",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "f86ded9e-31bf-41d9-b7de-4a552a46fefc",
+   "date": "2026-10-25",
+   "purpose": "Melissa sheet, first pass (superseded)"
+  },
+  {
+   "file": "melissa-B-nano.png",
+   "model": "nano_banana_pro (served as nano_banana_2)",
+   "resolution": "2k",
+   "job": "54814639-f1d1-4798-be6a-14b2a8286f97",
+   "date": "2026-10-25",
+   "purpose": "Melissa sheet, comparison; has baked-in text"
+  },
+  {
+   "file": "deniz-1-storybook.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "14decbd3-2703-4da6-89fc-b7ed64fbb835",
+   "date": "2026-10-25",
+   "purpose": "Deniz candidate 1: storybook charm, curly ponytail, trousers"
+  },
+  {
+   "file": "deniz-2-karagoz.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "c525e508-bdf3-4e12-b265-1bea37f02cb7",
+   "date": "2026-10-25",
+   "purpose": "Deniz candidate 2: authentic Karagoz profile style, tunic over turquoise skirt, includes exploded parts strip"
+  },
+  {
+   "file": "melissa-1-papercut.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "f81b15e6-1455-4c74-a470-113f200e5182",
+   "date": "2026-10-25",
+   "purpose": "Melissa candidate 1: papercut, petal collar, glowing perforated wings"
+  },
+  {
+   "file": "melissa-2-karagoz.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "job": "765d9fc2-f3ba-4b2d-8c14-01dd27181cee",
+   "date": "2026-10-25",
+   "purpose": "Melissa candidate 2: Karagoz ornament, turquoise rosette wings, exploded parts"
+  },
+  {
+   "file": "modern/1-explorer.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "0383ea5c-e594-4386-87ad-9d517f808d13",
+   "purpose": "Modern Deniz concept 1: explorer kid (not chosen)"
+  },
+  {
+   "file": "modern/2-archaeologist.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "60699477-13f8-4970-a9b6-5483841b7a88",
+   "purpose": "Modern Deniz concept 2: young archaeologist (not chosen)"
+  },
+  {
+   "file": "modern/3-sporty.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "1a369069-7648-4e18-88d6-6db8f68bd9d5",
+   "purpose": "Modern Deniz concept 3: street sporty (not chosen)"
+  },
+  {
+   "file": "modern/4-aegean.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "116909bf-271d-489c-9d7a-5cc03cd73174",
+   "purpose": "Modern Deniz concept 4: Aegean summer (not chosen)"
+  },
+  {
+   "file": "modern/5-night.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "low",
+   "resolution": "1k",
+   "job": "2c8d5005-c90d-4902-aa6f-566c444884c2",
+   "purpose": "Modern Deniz concept 5: night adventurer (not chosen)"
+  },
+  {
+   "file": "modern/6-photo-styled.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "medium",
+   "resolution": "1k",
+   "job": "f8c2453c-ac5f-4b70-8a5d-3a3095faf226",
+   "purpose": "APPROVED modern Deniz, styled from a user-supplied photo as inspiration only; refs: user photo + deniz candidate 1"
+  },
+  {
+   "file": "modern-parts-A.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "873c458e-6d15-415e-adb1-8726d9b12480",
+   "purpose": "Modern Deniz rig parts sheet (USED): head, back hair, torso, pelvis, upper arm, forearm with flashlight, free forearm, leg",
+   "reference_job": "f8c2453c-ac5f-4b70-8a5d-3a3095faf226"
+  },
+  {
+   "file": "modern-parts-B.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "46af34f9-c295-4ebe-a008-72d325a0698f",
+   "purpose": "Modern Deniz rig parts sheet, alternative (not used)",
+   "reference_job": "f8c2453c-ac5f-4b70-8a5d-3a3095faf226"
+  },
+  {
+   "file": "modern-portrait.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "7c18b65e-e487-4e83-9208-1af8d6dfeecf",
+   "purpose": "Modern Deniz dialogue portrait (USED)",
+   "reference_job": "f8c2453c-ac5f-4b70-8a5d-3a3095faf226"
+  },
+  {
+   "file": "flashlight.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "b1643e56-b706-4940-b891-838650a0b448",
+   "purpose": "Flashlight prop (narrator portrait icon)"
+  },
+  {
+   "file": "side-lower-A.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "ea049070-e588-42b0-bccd-d37bde83d541",
+   "purpose": "Side-profile pelvis and legs, slimmer (not used)",
+   "reference_job": "873c458e-6d15-415e-adb1-8726d9b12480"
+  },
+  {
+   "file": "side-lower-B.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "2f17b641-aa63-48e3-877e-0eca75f2fedd",
+   "purpose": "Side-profile pelvis and legs, chunkier (USED)",
+   "reference_job": "873c458e-6d15-415e-adb1-8726d9b12480"
+  },
+  {
+   "file": "side-torso-B.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "7c819e20-1332-451f-8579-870f10452c3a",
+   "purpose": "Side-profile torso (USED)",
+   "reference_job": "873c458e-6d15-415e-adb1-8726d9b12480"
+  },
+  {
+   "file": "side-torso-A.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "e0869e86-297d-4a9e-8eea-3bb9894ed75f",
+   "purpose": "Side-profile torso, slimmer (not used)",
+   "reference_job": "873c458e-6d15-415e-adb1-8726d9b12480"
+  },
+  {
+   "file": "side-ref-A.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "high",
+   "resolution": "2k",
+   "job": "2020191a-12d1-465a-b45c-7dd453563253",
+   "elements": [
+    "deniz-modern"
+   ],
+   "purpose": "Side-profile full-body reference (APPROVED, saved as element deniz-side). Prompt said 18-year-old, not 11."
+  },
+  {
+   "file": "side-ref-B.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "high",
+   "resolution": "2k",
+   "job": "4f0ed418-26c5-4a95-b029-0ba3ab6ae8df",
+   "elements": [
+    "deniz-modern"
+   ],
+   "purpose": "Side-profile full-body reference, variant 2 (not used)"
+  },
+  {
+   "date": "2026-10-25",
+   "file": "side-parts-1.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "8f38f6ed-7205-4c14-b1e7-a83de013fafd",
+   "reference_job": "2020191a-12d1-465a-b45c-7dd453563253",
+   "purpose": "Side rig parts 1 (USED): head, torso with pelvis, near/far upper arm, flashlight forearm, free forearm. One rivet per joint."
+  },
+  {
+   "date": "2026-10-25",
+   "file": "side-parts-2.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "2k",
+   "background": "transparent",
+   "job": "4f6bcab8-1571-44d1-a4b3-951c6c8fbafc",
+   "reference_job": "2020191a-12d1-465a-b45c-7dd453563253",
+   "purpose": "Side rig parts 2 (USED): near/far thigh and shin with foot. One rivet per joint."
+  },
+  {
+   "date": "2026-10-25",
+   "file": "head-blink.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "c432efd1-de79-417e-943b-d287fa3bdcd0",
+   "reference_job": "873c458e-6d15-415e-adb1-8726d9b12480",
+   "purpose": "Front view: eyes-closed head for the blink (USED)"
+  },
+  {
+   "file": "side-adult-1.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "high",
+   "resolution": "2k",
+   "job": "0430c00a-fd96-4781-9dc2-af978dc20924",
+   "elements": [
+    "deniz-side"
+   ],
+   "reference_job": "2020191a-12d1-465a-b45c-7dd453563253",
+   "purpose": "Adult-proportion side-profile reference candidate (18 years old); awaiting choice"
+  },
+  {
+   "file": "side-adult-2.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "high",
+   "resolution": "2k",
+   "job": "709f422a-2cee-4dd6-9e81-e7e3a79cb73b",
+   "elements": [
+    "deniz-side"
+   ],
+   "reference_job": "2020191a-12d1-465a-b45c-7dd453563253",
+   "purpose": "Adult-proportion side-profile reference candidate (18 years old); awaiting choice"
+  },
+  {
+   "file": "side-hip-legs.png",
+   "model": "gpt_image_2",
+   "date": "2026-10-25",
+   "quality": "high",
+   "resolution": "2k",
+   "job": "81988e8a-a032-4565-9fdc-92153a6dbba4",
+   "elements": [
+    "deniz-side"
+   ],
+   "reference_job": "2020191a-12d1-465a-b45c-7dd453563253",
+   "purpose": "Side rig second pass: pelvis, near/far thigh, near/far lower leg (used; cut by deniz-side-hip-legs job). Old leg parts backed up in assets-src/characters/backup-side-v2/"
+  },
+  {
+   "file": "portrait-deniz-neutral.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "69710bde-2678-4042-ae88-b35489698671",
+   "reference_job": "7c18b65e-e487-4e83-9208-1af8d6dfeecf",
+   "purpose": "Deniz dialogue portrait, expression: neutral (USED; replaces portrait-deniz.webp)"
+  },
+  {
+   "file": "portrait-deniz-happy.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "52e2a603-6e6e-445e-9329-fe9731f3194b",
+   "reference_job": "7c18b65e-e487-4e83-9208-1af8d6dfeecf",
+   "purpose": "Deniz dialogue portrait, expression: happy (USED; replaces portrait-deniz.webp)"
+  },
+  {
+   "file": "portrait-deniz-surprised.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "2fa2a720-760e-4869-b3b8-71f6b1ff2be2",
+   "reference_job": "7c18b65e-e487-4e83-9208-1af8d6dfeecf",
+   "purpose": "Deniz dialogue portrait, expression: surprised (USED; replaces portrait-deniz.webp)"
+  },
+  {
+   "file": "portrait-deniz-thinking.png",
+   "model": "gpt_image_2_5",
+   "date": "2026-10-25",
+   "quality": "xhigh",
+   "resolution": "1k",
+   "background": "transparent",
+   "job": "12644df5-e7fa-4c63-a98e-c1c092f794d0",
+   "reference_job": "7c18b65e-e487-4e83-9208-1af8d6dfeecf",
+   "purpose": "Deniz dialogue portrait, expression: thinking (USED; replaces portrait-deniz.webp)"
+  }
+ ]
+}

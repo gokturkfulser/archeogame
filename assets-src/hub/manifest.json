@@ -1,0 +1,46 @@
+{
+ "style": "Layered cut paper in a backlit lightbox crossed with Karagoz shadow theatre; palette indigo, lapis, Iznik turquoise, madder red, saffron, gold; no text.",
+ "note": "The map was generated from a real Natural Earth outline (map-reference.png, made by scripts/make-map-reference.mjs) so the coastline and city positions are geographically correct. Projection: src/hub/map-bounds.json.",
+ "generations": [
+  {
+   "file": "map-dusk.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "70bd1c65-3d9e-48dd-83cf-cd4789a8003c",
+   "purpose": "Hub map, dusk (USED)",
+   "resolution": "2k",
+   "reference_media": "3c2d0816-731e-411d-847c-a61edc850ea6 (silhouette upload)"
+  },
+  {
+   "file": "map-night.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "2af3523e-dcda-4c38-a011-b046ac1fe47a",
+   "purpose": "Hub map, night alternative (not used)",
+   "resolution": "2k",
+   "reference_media": "3c2d0816-731e-411d-847c-a61edc850ea6"
+  },
+  {
+   "file": "book-closed.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "fe6a26de-9abb-4af1-a2b1-ccf5a1840b1b",
+   "purpose": "The old book, closed (transparent)",
+   "resolution": "1k",
+   "background": "transparent"
+  },
+  {
+   "file": "book-open.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "4f97cfc4-0533-457b-adad-5cdf9eb48c16",
+   "purpose": "The old book, open with blank pages (transparent); text is HTML on top",
+   "resolution": "2k",
+   "background": "transparent"
+  }
+ ]
+}

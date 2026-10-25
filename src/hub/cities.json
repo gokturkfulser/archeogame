@@ -1,0 +1,17 @@
+[
+  {"id":"efes","name":"Efes","lat":37.94,"lon":27.34,"animal":"arı","animalEn":"bee","label":"top","playable":true,"off":[-0.5,0.4]},
+  {"id":"hattusa","name":"Hattuşa","lat":40.02,"lon":34.62,"animal":"geyik","animalEn":"stag","label":"bottom","playable":true,"off":[0.1,0]},
+  {"id":"gobeklitepe","name":"Göbeklitepe","lat":37.22,"lon":38.92,"animal":"tilki","animalEn":"fox","label":"bottom","playable":false,"off":[0.5,0.5]},
+  {"id":"catalhoyuk","name":"Çatalhöyük","lat":37.67,"lon":32.83,"animal":"leopar","animalEn":"leopard","label":"bottom","playable":false,"off":[0.1,0.1]},
+  {"id":"troya","name":"Troya","lat":39.96,"lon":26.24,"animal":"at","animalEn":"horse","label":"top","playable":false,"off":[0.2,-1.4]},
+  {"id":"assos","name":"Assos","lat":39.49,"lon":26.34,"animal":"baykuş","animalEn":"owl","label":"left","playable":false,"off":[-1.3,1.3]},
+  {"id":"afrodisias","name":"Afrodisias","lat":37.71,"lon":28.72,"animal":"güvercin","animalEn":"dove","label":"bottom","playable":false,"off":[-1.2,1.1]},
+  {"id":"bergama","name":"Bergama","lat":39.12,"lon":27.18,"animal":"yılan","animalEn":"snake","label":"right","playable":false,"off":[0.6,-0.5]},
+  {"id":"sardes","name":"Sardes","lat":38.49,"lon":28.04,"animal":"aslan","animalEn":"lion","label":"right","playable":false,"off":[0.8,0]},
+  {"id":"nemrut","name":"Nemrut","lat":37.98,"lon":38.74,"animal":"kartal","animalEn":"eagle","label":"top","playable":false,"off":[-0.1,-0.6]},
+  {"id":"zeugma","name":"Zeugma","lat":37.05,"lon":37.87,"animal":"Pegasus","animalEn":"Pegasus","label":"left","playable":false,"off":[-0.4,0.1]},
+  {"id":"hierapolis","name":"Hierapolis","lat":37.92,"lon":29.12,"animal":"Kerberos","animalEn":"Kerberos","label":"right","playable":false,"off":[1.4,-1]},
+  {"id":"patara","name":"Patara","lat":36.26,"lon":29.32,"animal":"caretta caretta","animalEn":"loggerhead turtle","label":"bottom","playable":false,"off":[-0.1,0.1]},
+  {"id":"gordion","name":"Gordion","lat":39.65,"lon":31.99,"animal":"eşek","animalEn":"donkey","label":"bottom","playable":false,"off":[-0.1,-0.1]},
+  {"id":"phaselis","name":"Phaselis","lat":36.52,"lon":30.55,"animal":"yunus","animalEn":"dolphin","label":"top","playable":false,"off":[0.1,0.1]}
+]

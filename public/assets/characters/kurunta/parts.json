@@ -1,0 +1,84 @@
+{
+ "head": {
+  "file": "characters/kurunta/head.webp",
+  "w": 291,
+  "h": 278,
+  "pivot": [
+   160,
+   267
+  ]
+ },
+ "torso": {
+  "file": "characters/kurunta/torso.webp",
+  "w": 354,
+  "h": 203,
+  "pivot": [
+   211,
+   149
+  ],
+  "hipJ": [
+   109,
+   131
+  ],
+  "shoulderJ": [
+   304,
+   136
+  ],
+  "neck": [
+   330,
+   28
+  ]
+ },
+ "legF": {
+  "file": "characters/kurunta/legF.webp",
+  "w": 54,
+  "h": 185,
+  "pivot": [
+   27,
+   13
+  ],
+  "foot": [
+   34,
+   181
+  ]
+ },
+ "legFBack": {
+  "file": "characters/kurunta/legFBack.webp",
+  "w": 54,
+  "h": 185,
+  "pivot": [
+   27,
+   13
+  ],
+  "foot": [
+   34,
+   181
+  ]
+ },
+ "legH": {
+  "file": "characters/kurunta/legH.webp",
+  "w": 71,
+  "h": 190,
+  "pivot": [
+   28,
+   14
+  ],
+  "foot": [
+   52,
+   186
+  ]
+ },
+ "legHBack": {
+  "file": "characters/kurunta/legHBack.webp",
+  "w": 71,
+  "h": 190,
+  "pivot": [
+   28,
+   14
+  ],
+  "foot": [
+   52,
+   186
+  ]
+ }
+}

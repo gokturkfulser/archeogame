@@ -1,0 +1,216 @@
+{
+ "style": "Layered cut paper in a backlit lightbox crossed with Karagoz shadow theatre; palette indigo, lapis, Iznik turquoise, madder red, saffron, gold; no text. Each plate: antique sepia-ink plate of the guide animal inside a round beaded-gold coin medallion.",
+ "note": "The current 15 cities are in src/hub/cities.json. Some plates are reused for a different city after the city list changed (see \"usedFor\").",
+ "generations": [
+  {
+   "file": "plate-efes.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "7e908cfc-ddfd-48db-b573-1c96ee9ed1ff",
+   "purpose": "Bee (Melissa)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "efes",
+   "reference": "melissa-puppet sheet"
+  },
+  {
+   "file": "plate-afrodisias.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "14ca78f9-c6b0-4a4b-bdf8-c35a87761213",
+   "purpose": "Dove",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "afrodisias"
+  },
+  {
+   "file": "plate-phaselis.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "cf9e15cc-25f6-442b-8e14-a72272d737cb",
+   "purpose": "Dolphin (first made for Side)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "phaselis"
+  },
+  {
+   "file": "plate-patara.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "ac623101-4034-4210-8329-a528d2975c20",
+   "purpose": "Sea turtle (first made for Phaselis)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "patara"
+  },
+  {
+   "file": "plate-troya.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "ddd0ef84-5df5-42ca-994f-edf3adba0ec6",
+   "purpose": "Horse",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "troya"
+  },
+  {
+   "file": "plate-nemrut.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "6cce24a8-5819-42cb-ab39-5d0dc91ae446",
+   "purpose": "Eagle (first made for Assos)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "nemrut"
+  },
+  {
+   "file": "plate-gobeklitepe.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "d646e00d-db33-4c33-a7db-a7255ae97a6b",
+   "purpose": "Fox",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "gobeklitepe"
+  },
+  {
+   "file": "plate-hattusa.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "5e4e0395-8f22-4c72-8dee-5a1b89ad79ec",
+   "purpose": "Hittite stag",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "hattusa"
+  },
+  {
+   "file": "plate-catalhoyuk.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "fe7860cd-e577-4c49-907f-a63ad0f1511c",
+   "purpose": "Leopard",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "catalhoyuk"
+  },
+  {
+   "file": "plate-assos.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "5d70440b-866c-404c-91ae-ac90133aa7aa",
+   "purpose": "Owl (Athena’s bird)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "assos"
+  },
+  {
+   "file": "plate-bergama.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "74cdca0d-d6b5-4cbd-9d35-798d79bba252",
+   "purpose": "Snake on a staff (Asklepios)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "bergama"
+  },
+  {
+   "file": "plate-sardes.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "1166e5e4-45c6-409d-9f5e-ee45749ae7dd",
+   "purpose": "Lion (Lydian coins)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "sardes"
+  },
+  {
+   "file": "plate-zeugma.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "1cf795ff-e698-4be2-b10e-5ce6678c778f",
+   "purpose": "Pegasus",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "zeugma"
+  },
+  {
+   "file": "plate-hierapolis.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "8e11e5df-1ce1-44e3-8950-982ccc5cd1e6",
+   "purpose": "Kerberos as a friendly three-headed puppy",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "hierapolis"
+  },
+  {
+   "file": "plate-gordion.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "a73bdede-e01c-4681-a28a-c920f8dd84ae",
+   "purpose": "Crowned donkey (Midas legend)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": "gordion"
+  },
+  {
+   "file": "unused/plate-frog-hierapolis.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "8f996bec-1c78-422e-a861-677d33a6ceb0",
+   "purpose": "Frog (dropped when Hierapolis became Kerberos)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": null
+  },
+  {
+   "file": "unused/plate-nightingale-aspendos.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "23cf277b-1156-45c5-90be-2a4ec75b8a7d",
+   "purpose": "Nightingale (Aspendos left out of the game)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": null
+  },
+  {
+   "file": "unused/plate-ibex-sagalassos.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "e72a338b-8ae7-4912-bd9c-1b937764b257",
+   "purpose": "Ibex (Sagalassos left out of the game)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": null
+  },
+  {
+   "file": "unused/plate-fish-zeugma.png",
+   "model": "gpt_image_2_5",
+   "quality": "xhigh",
+   "date": "2026-10-25",
+   "job": "1b52342c-6d56-4555-a7cb-29b26485804f",
+   "purpose": "Fish (dropped when Zeugma became Pegasus)",
+   "resolution": "1k",
+   "background": "transparent",
+   "usedFor": null
+  }
+ ]
+}

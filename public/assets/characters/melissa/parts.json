@@ -1,0 +1,41 @@
+{
+ "body": {
+  "file": "characters/melissa/body.webp",
+  "w": 267,
+  "h": 425,
+  "root": [
+   131,
+   209
+  ],
+  "center": [
+   122,
+   217
+  ]
+ },
+ "wingF": {
+  "file": "characters/melissa/wingF.webp",
+  "w": 162,
+  "h": 251,
+  "pivot": [
+   18,
+   234
+  ],
+  "tip": [
+   95,
+   20
+  ]
+ },
+ "wingH": {
+  "file": "characters/melissa/wingH.webp",
+  "w": 125,
+  "h": 209,
+  "pivot": [
+   16,
+   194
+  ],
+  "tip": [
+   102,
+   14
+  ]
+ }
+}

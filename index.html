@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Perde Perde Anadolu</title>
+<meta name="description" content="Anadolu’nun antik kentlerinde geçen, çocuklar için ücretsiz bir tarayıcı macerası. Eski bir kitabı bul, kayıp sikkelerin peşine düş.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Caveat:wght@500;700&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/hub/hub.css">
+</head>
+<body>
+<main id="hub">
+  <div id="mapwrap">
+    <img id="mapimg" src="/assets/hub/map.webp" alt="Türkiye’nin kâğıttan kesilmiş haritası" draggable="false">
+    <ul id="cities" aria-label="Antik kentler"></ul>
+  </div>
+
+  <header class="hub-title">
+    <p class="series">Perde Perde Anadolu</p>
+    <h1>Kayıp Sikkelerin Peşinde</h1>
+    <p class="count" id="count" aria-live="polite"></p>
+  </header>
+
+  <button id="bookBtn" hidden aria-label="Eski kitabı aç">
+    <img src="/assets/book/closed.webp" alt="" draggable="false">
+    <span>Kitap</span>
+  </button>
+
+  <section id="startCard" hidden aria-labelledby="startTitle">
+    <img src="/assets/book/closed.webp" alt="" draggable="false">
+    <div>
+      <h2 id="startTitle">Haritanın sırrı eski bir kitapta</h2>
+      <p>Deniz’in dedesi bir kitap saklamış. Önce onu bulmalısın.</p>
+      <a class="go" id="startBtn" href="/baslangic/">Kitabı bulmaya başla</a>
+    </div>
+  </section>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <button id="reset" class="tiny" hidden>Baştan başla</button>
+  <p id="rotate">Telefonu yan çevirirsen harita büyür.</p>
+  <div id="veil"></div>
+</main>
+<script type="module" src="/src/hub/index.ts"></script>
+</body>
+</html>

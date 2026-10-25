@@ -1,0 +1,136 @@
+{
+ "head": {
+  "file": "characters/deniz/head.webp",
+  "w": 190,
+  "h": 211,
+  "pivot": [
+   113,
+   163
+  ],
+  "hair": [
+   52,
+   69
+  ]
+ },
+ "hairBack": {
+  "file": "characters/deniz/hairBack.webp",
+  "w": 158,
+  "h": 227,
+  "pivot": [
+   51,
+   66
+  ]
+ },
+ "torso": {
+  "file": "characters/deniz/torso.webp",
+  "w": 135,
+  "h": 205,
+  "pivot": [
+   72,
+   178
+  ],
+  "neck": [
+   66,
+   24
+  ],
+  "shoulderF": [
+   96,
+   39
+  ],
+  "shoulderB": [
+   51,
+   39
+  ]
+ },
+ "pelvis": {
+  "file": "characters/deniz/pelvis.webp",
+  "w": 162,
+  "h": 164,
+  "pivot": [
+   82,
+   100
+  ],
+  "hip": [
+   82,
+   100
+  ],
+  "waist": [
+   82,
+   16
+  ]
+ },
+ "upperArm": {
+  "file": "characters/deniz/upperArm.webp",
+  "w": 183,
+  "h": 78,
+  "pivot": [
+   15,
+   20
+  ],
+  "tip": [
+   173,
+   48
+  ]
+ },
+ "upperArmBack": {
+  "file": "characters/deniz/upperArmBack.webp",
+  "w": 183,
+  "h": 78,
+  "pivot": [
+   15,
+   20
+  ],
+  "tip": [
+   173,
+   48
+  ]
+ },
+ "foreArmLight": {
+  "file": "characters/deniz/foreArmLight.webp",
+  "w": 195,
+  "h": 56,
+  "pivot": [
+   11,
+   31
+  ],
+  "lens": [
+   187,
+   22
+  ],
+  "grip": [
+   127,
+   27
+  ]
+ },
+ "foreArmFree": {
+  "file": "characters/deniz/foreArmFree.webp",
+  "w": 163,
+  "h": 41,
+  "pivot": [
+   13,
+   21
+  ],
+  "tip": [
+   153,
+   20
+  ]
+ },
+ "leg": {
+  "file": "characters/deniz/leg.webp",
+  "w": 98,
+  "h": 212,
+  "pivot": [
+   29,
+   11
+  ]
+ },
+ "legBack": {
+  "file": "characters/deniz/legBack.webp",
+  "w": 98,
+  "h": 212,
+  "pivot": [
+   29,
+   11
+  ]
+ }
+}

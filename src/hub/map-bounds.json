@@ -1,0 +1,7 @@
+{
+  "_": "Equirectangular projection (x scaled by cos 38.5°) of the map image. Shared by scripts/make-map-reference.mjs and the hub so city markers land on the painted map.",
+  "lon0": 23.5,
+  "lon1": 47.35,
+  "lat0": 35.0,
+  "lat1": 43.0
+}
