@@ -154,11 +154,14 @@ test('plays through Hattuşa: reliefs, tunnel, tablets, gods, finale', async ({ 
   await readUntil(page, '#card'); // all lit, Kurunta's name, the treaty
   await shot('13-yazili-card');
   await page.locator('#cardGo').click();
-  await readUntil(page, '#final'); // finale lines
-  await expect(page.locator('#final')).toBeVisible();
-  await shot('14-finale');
+  await readUntil(page, '.film-box'); // finale lines, then the act-ending film
+  await expect(page.locator('.film-box')).toBeVisible();
+  await shot('14-ending-film');
 
   const progress = await page.evaluate(() => JSON.parse(localStorage.getItem('ppa.progress.v1') || 'null'));
   expect(progress.done).toContain('hattusa');
+  await page.waitForTimeout(3300); // the film ignores skip input for its first 3 seconds
+  await page.keyboard.press('Enter');
+  await page.waitForURL('**/', { timeout: 15_000 });
   expect(errors).toEqual([]);
 });

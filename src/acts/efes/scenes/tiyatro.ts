@@ -25,6 +25,7 @@ export class Tiyatro implements Scene {
   name = T.name;
   dark = 0.36;
   lamp0: [number, number] = [800, 520];
+  focus: [number, number] = [800, 680];
   ground = 852;
   backImage = 'efes/tiyatro-sky.webp';
   ambience = { base: 73.42, noiseFreq: 400, noiseVol: 0.025, noiseLfo: 0.08, crickets: true };

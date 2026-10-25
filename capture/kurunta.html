@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>capture kurunta</title></head>
+<body style="margin:0;background:#888">
+<canvas id="stage" width="1000" height="1200"></canvas>
+<div hidden><section id="dialog"><div id="portrait"></div><div id="who"></div><p id="line"></p><button id="next"></button></section><div id="goal"><span id="goalText"></span><button id="replayBtn"></button><button id="hintBtn"></button></div></div>
+<script type="module">
+import { stage } from '/src/engine/core.ts';
+import { drawStagPose, useKurundaImages } from '/src/engine/kurunta.ts';
+useKurundaImages();
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+window.capture = async () => {
+  await wait(1500);
+  const g = stage.ctx;
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.clearRect(0, 0, 1000, 1200);
+  const ok = drawStagPose(g, 500, 1150, 1.6, 1);
+  return { ok, url: stage.cv.toDataURL('image/png') };
+};
+</script></body></html>

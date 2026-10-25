@@ -326,6 +326,87 @@ setInterval(() => {
   }
 }, 1300);
 
+/** Filtered noise burst: the building block for paper, leather and wax sounds. */
+function noiseHit(when: number, type: BiquadFilterType, f0: number, f1: number, q: number, vol: number, dur: number) {
+  if (!A.ctx || !A.master || !A.noise) return;
+  const ac = A.ctx;
+  const t = ac.currentTime + when;
+  const n = ac.createBufferSource();
+  const flt = ac.createBiquadFilter();
+  const g = ac.createGain();
+  n.buffer = A.noise;
+  flt.type = type;
+  flt.Q.value = q;
+  flt.frequency.setValueAtTime(f0, t);
+  flt.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t + dur * 0.25);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  n.connect(flt);
+  flt.connect(g);
+  g.connect(A.master);
+  n.start(t);
+  n.stop(t + dur + 0.05);
+}
+
+/** A page turning: a dry swish with a soft curl at the end. */
+export function pageTurn() {
+  noiseHit(0, 'bandpass', 1800, 4200, 0.7, 0.3, 0.42);
+  noiseHit(0.34, 'highpass', 3000, 6000, 0.5, 0.1, 0.18);
+}
+
+/** Cut-paper layers sliding over the stage (`closing`) or away from it: two swishes, the second a beat behind. */
+export function paperSlide(closing: boolean) {
+  const [a, b] = closing ? [700, 2600] : [2400, 600];
+  noiseHit(0, 'bandpass', a, b, 0.8, 0.26, 0.55);
+  noiseHit(0.08, 'bandpass', a * 0.7, b * 0.7, 0.8, 0.18, 0.5);
+}
+
+/** The scene title screen settling into place: a soft wooden knock. */
+export function woodKnock() {
+  tok(150, 0.26);
+}
+
+/** The clasp of the book: a small metal click, then the strap letting go. */
+export function claspClick() {
+  pluck(1760, 0, 0.12, 0.3);
+  tok(900, 0.22);
+  noiseHit(0.08, 'bandpass', 700, 300, 1.2, 0.18, 0.16);
+}
+
+/** The cover of the book opening: leather and old paper creaking. */
+export function coverCreak() {
+  noiseHit(0, 'bandpass', 380, 760, 2.2, 0.16, 0.9);
+  noiseHit(0.5, 'bandpass', 2200, 900, 0.8, 0.14, 0.45);
+}
+
+/** A little glint: one soft high note, higher for each coin in the ring. */
+export function glint(i: number) {
+  const scale = [1174.66, 1318.51, 1479.98, 1567.98, 1760, 1975.53];
+  pluck(scale[i % scale.length] * (i >= scale.length ? 2 : 1), 0, 0.09, 0.8);
+}
+
+/** Wax cracking: a dry snap and a few brittle ticks. */
+export function waxCrack() {
+  noiseHit(0, 'highpass', 2500, 5000, 0.6, 0.35, 0.07);
+  tok(260, 0.25);
+  noiseHit(0.09, 'bandpass', 3200, 1800, 3, 0.12, 0.1);
+  noiseHit(0.17, 'bandpass', 2600, 1500, 3, 0.1, 0.08);
+}
+
+/** A quill scratching: very short, quiet, for the grandfather's letter. */
+export function scratch() {
+  noiseHit(0, 'bandpass', 2600 + Math.random() * 900, 1800, 1.5, 0.05, 0.09);
+}
+
+/** Whether sound is switched on (the mute button). */
+export const soundOn = () => A.on;
+
+/** Quiets the game’s own sound while a film with its own soundtrack plays. */
+export function duck(on: boolean) {
+  if (A.ctx && A.master) A.master.gain.setTargetAtTime(on ? 0 : A.on ? 0.9 : 0, A.ctx.currentTime, 0.15);
+}
+
 /** Wires the always-visible mute button. */
 export function initMuteButton(btn: HTMLElement) {
   btn.onclick = () => {

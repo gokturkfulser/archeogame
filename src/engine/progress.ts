@@ -8,16 +8,21 @@ export interface Progress {
   book: boolean;
   /** Ids of the cities whose coin is complete. */
   done: string[];
+  /** Cities whose “coin lands on the map” scene (G6) has already been shown. */
+  shown: string[];
 }
 
-const empty = (): Progress => ({ book: false, done: [] });
+const empty = (): Progress => ({ book: false, done: [], shown: [] });
+const ids = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : []);
 
 export function loadProgress(): Progress {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return empty();
     const p = JSON.parse(raw) as Partial<Progress>;
-    return { book: !!p.book, done: Array.isArray(p.done) ? p.done.filter((x) => typeof x === 'string') : [] };
+    const done = ids(p.done);
+    // saves from before G6 have no `shown`: those coins were already celebrated
+    return { book: !!p.book, done, shown: p.shown === undefined ? done : ids(p.shown) };
   } catch {
     return empty();
   }
@@ -48,6 +53,19 @@ export function markDone(id: string) {
 export function unmarkDone(id: string) {
   const p = loadProgress();
   p.done = p.done.filter((x) => x !== id);
+  p.shown = p.shown.filter((x) => x !== id);
+  save(p);
+}
+
+/** The first finished city whose return to the map has not been played yet. */
+export function pendingReturn(): string | null {
+  const p = loadProgress();
+  return p.done.find((id) => !p.shown.includes(id)) ?? null;
+}
+
+export function markShown(id: string) {
+  const p = loadProgress();
+  if (!p.shown.includes(id)) p.shown.push(id);
   save(p);
 }
 

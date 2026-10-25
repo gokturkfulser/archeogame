@@ -23,7 +23,6 @@ export const TEXT = {
 
   found: [
     d('Bu bir kitap! Kapağındaki sikkeler fenerin ışığında göz kırpıyor sanki.', 'surprised'),
-    d('Dedem hep derdi ki: “Toprak hatırlamak ister, yeter ki biri ışık tutsun.” Sanırım bunu kastetmişti.'),
     d('Hadi bakalım, kapağı açalım.'),
   ],
   afterBook: [

@@ -5,7 +5,7 @@ import { Ctx, TAU, clamp, lamp, sstep, stage, wait, withPar } from '../../../eng
 import { pluck, rumble } from '../../../engine/audio';
 import { clearGoal, dialogOpen, say, setGoal } from '../../../engine/dialogue';
 import { award, card } from '../../../engine/hud';
-import { perkStag, stag } from '../../../engine/kurunta';
+import { drawStagPose, perkStag, stag } from '../../../engine/kurunta';
 import { LayerSpec } from '../../../engine/layers';
 import { dot, glowDisk, makeStars, skyFill, stars } from '../../../engine/paper';
 import type { Hotspot, Scene } from '../../../engine/scene';
@@ -144,6 +144,23 @@ export class Yazili implements Scene {
     g.restore();
   }
 
+  private stagCanvas: HTMLCanvasElement | null = null;
+  private stagMask: HTMLCanvasElement | null = null;
+  /** Kurunta’s puppet drawn once into a small canvas; null until his images have loaded. */
+  private stagRelief(): HTMLCanvasElement | null {
+    if (this.stagCanvas) return this.stagCanvas;
+    const c = document.createElement('canvas');
+    c.width = 240;
+    c.height = 190;
+    const g = c.getContext('2d')!;
+    if (!drawStagPose(g, c.width / 2, c.height - 10, 0.27, 1)) return null;
+    this.stagCanvas = c;
+    this.stagMask = document.createElement('canvas');
+    this.stagMask.width = c.width;
+    this.stagMask.height = c.height;
+    return c;
+  }
+
   /** The god standing on a stag, cut into a round niche on the wall, with his brass name plate. */
   private drawStagGod(g: Ctx) {
     const a = this.reveal;
@@ -161,13 +178,35 @@ export class Yazili implements Scene {
     g.stroke();
     g.fillStyle = 'rgba(255,214,140,.9)';
     for (let q = 0; q < 28; q++) dot(g, x + Math.cos((q / 28) * TAU) * (r + 9), y + Math.sin((q / 28) * TAU) * (r + 9), 2.4);
+    // the stag is Kurunta himself, carved: his own puppet art in a stone tint, with the god standing on his back
+    const relief = this.stagRelief();
     const paint = (dx: number, dy: number, col: string) => {
-      glyph(g, 'geyik', x + dx, y + 34 + dy, 112, col);
-      god(g, x - 4 + dx, y + 14 + dy, 96, col, 0);
+      if (relief) {
+        // a flat silhouette in `col`
+        const m = this.stagMask!;
+        const mg = m.getContext('2d')!;
+        mg.clearRect(0, 0, m.width, m.height);
+        mg.drawImage(relief, 0, 0);
+        mg.globalCompositeOperation = 'source-in';
+        mg.fillStyle = col;
+        mg.fillRect(0, 0, m.width, m.height);
+        mg.globalCompositeOperation = 'source-over';
+        g.drawImage(m, x - m.width / 2 + dx, y - m.height / 2 + 4 + dy);
+      } else glyph(g, 'geyik', x + dx, y + 34 + dy, 112, col);
+      if (relief) god(g, x - 24 + dx, y + 42 + dy, 62, col, 0);
+      else god(g, x - 4 + dx, y + 14 + dy, 96, col, 0);
     };
     paint(-2, 2, 'rgba(52,28,36,.85)');
     paint(2, -2, 'rgba(255,236,190,.95)');
-    paint(0, 0, 'rgba(176,118,78,1)');
+    if (relief) {
+      // the body: the puppet’s own shading, toned like carved stone
+      g.save();
+      g.filter = 'grayscale(1) sepia(.65) brightness(1.05) contrast(1.05)';
+      g.globalAlpha = 0.95;
+      g.drawImage(relief, x - relief.width / 2, y - relief.height / 2 + 4);
+      g.restore();
+      paint(0, 0, 'rgba(176,118,78,.28)');
+    } else paint(0, 0, 'rgba(176,118,78,1)');
     g.globalCompositeOperation = 'lighter';
     const gr = g.createRadialGradient(x, y, 10, x, y, r * 1.8);
     gr.addColorStop(0, 'rgba(255,200,110,.35)');

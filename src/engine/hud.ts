@@ -1,6 +1,6 @@
-/* Collectible HUD, fact cards, scene titles and curtain transitions. */
-import { Ctx, RM, wait } from './core';
-import { chime, whoosh } from './audio';
+/* Collectible HUD and fact cards (the scene transition lives in transition.ts). */
+import { Ctx, wait } from './core';
+import { chime } from './audio';
 import { celebrate } from './deniz';
 
 /* ---------- collectibles (Efes: the four pieces of the coin) ---------- */
@@ -102,28 +102,4 @@ export function card(title: string, facts: string[], pieceId: string): Promise<v
       res();
     };
   });
-}
-
-/* ---------- curtains and scene title ---------- */
-const curL = document.getElementById('curL') as HTMLElement;
-const curR = document.getElementById('curR') as HTMLElement;
-const titleBox = document.getElementById('sceneTitle') as HTMLElement;
-
-export async function closeCurtain() {
-  whoosh();
-  curL.classList.add('closed');
-  curR.classList.add('closed');
-  await wait(RM ? 50 : 1150);
-}
-
-export async function openCurtain(num: string, name: string) {
-  whoosh();
-  curL.classList.remove('closed');
-  curR.classList.remove('closed');
-  (titleBox.querySelector('.num') as HTMLElement).textContent = num;
-  (titleBox.querySelector('.name') as HTMLElement).textContent = name;
-  titleBox.classList.add('show');
-  await wait(RM ? 300 : 1500);
-  setTimeout(() => titleBox.classList.remove('show'), 1200);
-  await wait(700);
 }

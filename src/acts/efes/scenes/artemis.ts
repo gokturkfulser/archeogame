@@ -1,6 +1,10 @@
 /* IV. Artemis Tapınağı: hold the lamp where the hanging paper fragments throw the temple’s shadow together. */
-import { Ctx, H, W, TAU, clamp, lamp, sstep, stage, wait, withPar } from '../../../engine/core';
-import { buzz, chime } from '../../../engine/audio';
+import { Ctx, H, W, TAU, clamp, lamp, sstep, stage, withPar } from '../../../engine/core';
+import { buzz, chime, glint, pluck } from '../../../engine/audio';
+import { camMove, camReset, camShake } from '../../../engine/cinematic/camera';
+import { startCine } from '../../../engine/cinematic';
+import { celebrate } from '../../../engine/deniz';
+import { bee } from '../../../engine/melissa';
 import { clearGoal, dialogOpen, say, setGoal } from '../../../engine/dialogue';
 import { finale } from '../finale';
 import { award, card } from '../../../engine/hud';
@@ -79,6 +83,7 @@ export class Artemis implements Scene {
   name = T.name;
   dark = 0.14;
   lamp0: [number, number] = [520, 520];
+  focus: [number, number] = [900, 420];
   ground = 862;
   backImage = 'efes/artemis-sky.webp';
   ambience = { base: 73.42, noiseFreq: 900, noiseVol: 0.05, noiseLfo: 0.08 };
@@ -88,6 +93,10 @@ export class Artemis implements Scene {
   private hold = 0;
   private lockAmt = 0;
   private glow = 0;
+  /** Payoff (temple-shadows beat): each fragment lights up in turn, then the rays, then the letters ΕΦ rise. */
+  private lit: number[] = FRAGS.map(() => 0);
+  private glowGo = false;
+  private rise = 0;
   private solved = false;
   private locking = false;
   solvedLamp: { x: number; y: number } | null = null;
@@ -170,13 +179,14 @@ export class Artemis implements Scene {
       g.translate(dx, dy);
       g.beginPath();
       f.shape(g);
-      g.fillStyle = this.glow > 0 ? `rgba(${(52 + 150 * this.glow) | 0},${(26 + 100 * this.glow) | 0},58,${0.5 + 0.3 * this.glow})` : 'rgba(52,26,58,.5)';
+      const lt = Math.max(this.lit[i], this.glow);
+      g.fillStyle = lt > 0 ? `rgba(${(52 + 150 * lt) | 0},${(26 + 100 * lt) | 0},58,${0.5 + 0.3 * lt})` : 'rgba(52,26,58,.5)';
       g.fill(f.eo ? 'evenodd' : 'nonzero');
       g.restore();
     });
-    if (this.glow > 0) {
-      const gc2 = `rgba(255,236,170,${this.glow * 0.95})`;
-      FRAGS.forEach((f) => {
+    if (this.glow > 0 || this.lit.some((v) => v > 0)) {
+      FRAGS.forEach((f, fi) => {
+        const gc2 = `rgba(255,236,170,${Math.max(this.glow, this.lit[fi]) * 0.95})`;
         for (const pl of f.polys) {
           for (let i = 0; i < pl.length; i++) {
             const a = pl[i];
@@ -186,6 +196,32 @@ export class Artemis implements Scene {
         }
       });
     }
+  };
+
+  /** The letters ΕΦ, the last coin piece, rising out of the finished temple. */
+  fx = (g: Ctx) => {
+    if (this.rise <= 0.01) return;
+    const k = sstep(clamp(this.rise, 0, 1));
+    const x = 900;
+    const y = 490 - 170 * k;
+    g.save();
+    g.globalAlpha = Math.min(1, this.rise * 2) * (this.rise > 1.6 ? clamp(2.2 - this.rise, 0, 1) : 1);
+    g.globalCompositeOperation = 'lighter';
+    const gr = g.createRadialGradient(x, y, 10, x, y, 190);
+    gr.addColorStop(0, 'rgba(255,226,150,.8)');
+    gr.addColorStop(1, 'rgba(255,200,100,0)');
+    g.fillStyle = gr;
+    dot(g, x, y, 190);
+    g.globalCompositeOperation = 'source-over';
+    g.font = '700 110px Marcellus, Georgia, serif';
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    g.lineWidth = 6;
+    g.strokeStyle = 'rgba(120,70,20,.9)';
+    g.fillStyle = '#ffe9a8';
+    g.strokeText('ΕΦ', x, y);
+    g.fillText('ΕΦ', x, y);
+    g.restore();
   };
 
   private sway(i: number): number {
@@ -234,7 +270,7 @@ export class Artemis implements Scene {
 
   update = (dt: number) => {
     if (this.solved) {
-      this.glow = Math.min(1, this.glow + dt * 0.6);
+      if (this.glowGo) this.glow = Math.min(1, this.glow + dt * 0.9);
       return;
     }
     const d = Math.hypot(lamp.x - LS.x, lamp.y - LS.y);
@@ -261,7 +297,7 @@ export class Artemis implements Scene {
   hint = () => void say(T.hint);
 
   async enter() {
-    Object.assign(this, { close: 0, hold: 0, lockAmt: 0, glow: 0, solved: false, locking: false, solvedLamp: null });
+    Object.assign(this, { close: 0, hold: 0, lockAmt: 0, glow: 0, solved: false, locking: false, solvedLamp: null, glowGo: false, rise: 0, lit: FRAGS.map(() => 0) });
     await say(T.intro);
     setGoal(T.goal);
     const auto = setTimeout(() => {
@@ -269,14 +305,63 @@ export class Artemis implements Scene {
     }, 28000);
     await new Promise<void>((r) => (this.solve = r));
     clearTimeout(auto);
-    lamp.lock = null;
     clearGoal();
-    chime();
-    setTimeout(chime, 500);
-    await wait(1600);
+    await this.payoff();
     await say(T.solved);
     await award('ef');
     await card(T.card.title, T.card.facts, 'ef');
     await finale();
+  }
+
+  /** The temple-shadows payoff: the shadows click into place and the temple lights up piece by piece from the steps to the
+   *  roof; golden rays burst out, Melissa circles the temple, and the letters ΕΦ rise from it. */
+  private async payoff() {
+    const c = startCine();
+    lamp.lock = { x: LS.x, y: LS.y };
+    void camMove(c, { z: 1.22, x: 900, y: 470 }, 1400);
+    await c.sleep(500);
+    // 1. each piece lights in turn with a rising note
+    const notes = [392, 440, 494, 587, 659, 784, 880];
+    for (let i = 0; i < FRAGS.length; i++) {
+      if (!c.skipped) pluck(notes[i], 0, 0.14, 0.8);
+      const from = this.lit[i];
+      void c.tween(380, (t) => (this.lit[i] = from + (1 - from) * t));
+      await c.sleep(300);
+    }
+    await c.sleep(250);
+    // 2. the rays burst, the camera shakes a little, Deniz cheers and Melissa circles the temple
+    if (!c.skipped) {
+      buzz(0.8);
+      chime();
+      glint(4);
+    }
+    this.glowGo = true;
+    void camShake(c, 3, 900);
+    celebrate(2.2);
+    const from = { x: bee.x, y: bee.y };
+    bee.on = true;
+    bee.hold = 999;
+    await c.tween(2400, (t) => {
+      const e = t < 0.18 ? t / 0.18 : 1;
+      const a = -Math.PI * 0.9 + t * TAU * 1.1;
+      const tx = 900 + Math.cos(a) * 330;
+      const ty = 400 + Math.sin(a) * 120;
+      const x = from.x + (tx - from.x) * e;
+      const y = from.y + (ty - from.y) * e;
+      if (Math.abs(x - bee.x) > 0.5) bee.face = x > bee.x ? 1 : -1;
+      bee.x = x;
+      bee.y = y;
+      if (t > 0.45) this.rise = (t - 0.45) / 0.55;
+    });
+    // 3. ΕΦ hangs in the light a moment, then is gone into the coin
+    if (!c.skipped) chime();
+    await c.tween(900, (t) => (this.rise = 1 + t * 1.2));
+    this.rise = 0;
+    bee.hold = 0;
+    bee.vx = bee.vy = 0;
+    await camMove(c, { z: 1, x: 800, y: 450 }, 800);
+    camReset();
+    lamp.lock = null;
+    c.end();
   }
 }

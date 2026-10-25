@@ -29,6 +29,7 @@ export class Kutuphane implements Scene {
   name = T.name;
   dark = 0.4;
   lamp0: [number, number] = [800, 600];
+  focus: [number, number] = [800, 470];
   ground = 872;
   backImage = 'efes/kutuphane-sky.webp';
   ambience = { base: 65.41, noiseFreq: 400, noiseVol: 0.025, noiseLfo: 0.08, crickets: true };
@@ -264,7 +265,16 @@ export class Kutuphane implements Scene {
     const tray = document.getElementById('tray') as HTMLElement;
     tray.innerHTML = '';
     tray.setAttribute('aria-label', T.tray);
-    VIRTUES.forEach((v, i) => {
+    // the statues lie in a random order, never the order of the niches
+    const order = VIRTUES.map((_, i) => i);
+    do {
+      for (let k = order.length - 1; k > 0; k--) {
+        const j = Math.floor(Math.random() * (k + 1));
+        [order[k], order[j]] = [order[j], order[k]];
+      }
+    } while (order.every((v, k) => v === k));
+    order.forEach((i) => {
+      const v = VIRTUES[i];
       const b = document.createElement('button');
       b.className = 'statue';
       b.dataset.i = String(i);

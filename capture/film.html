@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Efes perde sonu filmi (önizleme)</title>
+<style>
+  body{margin:0;background:#0b0a2a;color:#f2dfb8;font:18px/1.4 Georgia,serif;display:grid;gap:14px;justify-items:center;padding:18px}
+  video{max-width:min(96vw,1280px);max-height:72vh;background:#000;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  button{font:inherit;padding:8px 16px;border-radius:4px;border:0;background:#26357a;color:#f2dfb8;cursor:pointer}
+  button[aria-pressed=true]{background:#a8322a}
+  p{margin:0;max-width:60ch;text-align:center;opacity:.85}
+</style>
+</head>
+<body>
+<h1 style="margin:0;font-weight:400">Efes perde sonu filmi</h1>
+<div class="row" id="pick">
+  <button data-src="/assets/efes/ending.webm" aria-pressed="true">Oyundaki film (WebM)</button>
+  <button data-src="/assets/efes/ending.mp4">MP4 yedeği</button>
+  <button data-src="/capture/efes-ending-vp8.webm">WebM (VP8, deneme)</button>
+  <button data-src="/capture/efes-ending-vertical.mp4">Dikey (sosyal medya)</button>
+</div>
+<video id="v" controls playsinline src="/assets/efes/ending.webm"></video>
+<p id="msg">Oynat düğmesine bas. Çubuktan ileri geri sarabilir, ses düğmesiyle sesi açabilirsin (film sesli).</p>
+<script>
+  const v = document.getElementById('v');
+  const msg = document.getElementById('msg');
+  let fell = false;
+  v.addEventListener('error', () => {
+    const code = v.error ? v.error.code : '?';
+    if (!fell && /\.webm/.test(v.currentSrc) && /ending\.webm/.test(v.currentSrc)) {
+      fell = true;
+      msg.textContent = 'Bu tarayıcı WebM (VP9) dosyasını çözemedi (kod ' + code + '), MP4 yedeğine geçildi. Oyun da aynısını yapıyor.';
+      v.src = '/assets/efes/ending.mp4';
+      document.querySelectorAll('#pick button').forEach((x, i) => x.setAttribute('aria-pressed', String(i === 1)));
+      return;
+    }
+    msg.textContent = 'Bu dosya yüklenemedi (kod ' + code + ').';
+  });
+  document.getElementById('pick').addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    document.querySelectorAll('#pick button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    fell = false;
+    v.src = b.dataset.src;
+    v.load();
+  });
+</script>
+</body>
+</html>

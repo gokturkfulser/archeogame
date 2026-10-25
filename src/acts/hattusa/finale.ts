@@ -1,48 +1,19 @@
-/* The end of Act 2: closing lines, then the spinning Hattuşa coin with all four pieces. */
-import { RM } from '../../engine/core';
-import { holdCheer } from '../../engine/deniz';
+/* The end of Act 2: Kurunta’s closing lines, then the act-ending film (rendered with Remotion from /video, the shared
+   template with the Hattuşa coin: lion, sun, clay tablet, god; the reverse shows the Kadesh handshake), and on to the
+   map, where the coin lands (G6). */
 import { say } from '../../engine/dialogue';
-import { go } from '../../engine/game';
-import { resetCollectibles } from '../../engine/hud';
-import { hideStag } from '../../engine/kurunta';
-import { fillNextActs } from '../../engine/next-acts';
-import { markDone, unmarkDone } from '../../engine/progress';
-import { coinImage, drawCoinImage } from './emblems';
+import { markDone } from '../../engine/progress';
+import { playFilm } from '../../engine/cinematic/play-film';
+import { assetUrl } from '../../engine/url';
 import { TEXT } from './text';
 
 export async function finale() {
   markDone('hattusa');
   await say(TEXT.finale);
-  const fin = document.getElementById('final') as HTMLElement;
-  fillNextActs(document.getElementById('nextActs') as HTMLElement);
-  holdCheer(true);
-  fin.hidden = false;
-  (document.getElementById('again') as HTMLButtonElement).focus({ preventScroll: true });
-  const c = document.getElementById('coinCanvas') as HTMLCanvasElement;
-  const g = c.getContext('2d')!;
-  let run = true;
-  const t0 = performance.now();
-  (function spin(now: number) {
-    if (!run) return;
-    const t = (now - t0) / 1000;
-    const a = RM ? 0 : t * 1.4;
-    const sx = Math.cos(a);
-    g.clearRect(0, 0, 400, 400);
-    g.save();
-    g.translate(200, 200);
-    g.scale(Math.max(0.04, Math.abs(sx)), 1);
-    const img = coinImage(sx >= 0 ? 'geyik' : 'reverse');
-    if (img) drawCoinImage(g, img, 0, 0, 185);
-    g.restore();
-    requestAnimationFrame(spin);
-  })(t0);
-  (document.getElementById('again') as HTMLButtonElement).onclick = async () => {
-    run = false;
-    holdCheer(false);
-    unmarkDone('hattusa');
-    fin.hidden = true;
-    resetCollectibles();
-    hideStag();
-    await go(0);
-  };
+  await playFilm({
+    webm: assetUrl('hattusa/ending.webm'),
+    mp4: assetUrl('hattusa/ending.mp4'),
+    poster: assetUrl('hattusa/ending-poster.webp'),
+  });
+  location.href = '/';
 }

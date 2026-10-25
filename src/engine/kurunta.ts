@@ -153,6 +153,33 @@ export function drawStag(g: Ctx, ground: number) {
   g.restore();
 }
 
+/** Kurunta standing still, for carvings and plaques: feet on `base`, centred on `cx`, `sc` raw-part units to world units. */
+export function drawStagPose(g: Ctx, cx: number, base: number, sc: number, face: 1 | -1 = 1): boolean {
+  if (!skin) return false;
+  const { meta, img } = skin;
+  const t = meta.torso;
+  const legLen = (meta.legF.foot![1] - meta.legF.pivot[1] + (meta.legH.foot![1] - meta.legH.pivot[1])) / 2;
+  const oy = -(legLen - (t.pivot[1] - t.hipJ![1]));
+  g.save();
+  g.imageSmoothingQuality = 'high';
+  g.translate(cx, base);
+  g.scale(face * sc, sc);
+  g.translate(-(t.neck![0] - t.pivot[0]) * 0.25, oy);
+  const hip: [number, number] = [t.hipJ![0] - t.pivot[0], t.hipJ![1] - t.pivot[1]];
+  const sho: [number, number] = [t.shoulderJ![0] - t.pivot[0], t.shoulderJ![1] - t.pivot[1]];
+  leg(g, 'legHBack', hip[0] - 7, hip[1], 0.12);
+  leg(g, 'legFBack', sho[0] - 7, sho[1], -0.12);
+  g.drawImage(img.torso, -t.pivot[0], -t.pivot[1], t.w, t.h);
+  leg(g, 'legH', hip[0], hip[1], -0.1);
+  leg(g, 'legF', sho[0], sho[1], 0.1);
+  const h = meta.head;
+  g.translate(t.neck![0] - t.pivot[0], t.neck![1] - t.pivot[1] + 8);
+  g.rotate(-0.05);
+  g.drawImage(img.head, -h.pivot[0], -h.pivot[1], h.w, h.h);
+  g.restore();
+  return true;
+}
+
 /** A soft glow around the antlers, drawn on top of the darkness so he lights dark places. */
 export function drawStagGlow(g: Ctx, ground: number) {
   if (!stag.on || !skin || stag.glow <= 0) return;

@@ -24,6 +24,8 @@ export interface Scene {
   /** 0..1 darkness outside the lamp’s glow. */
   dark: number;
   lamp0: [number, number];
+  /** Where the beam eases to when the curtain opens (until the player moves it): near the puzzle, never on its answer. */
+  focus?: [number, number];
   /** y of the ground line Deniz walks on. */
   ground: number;
   /** How tall Deniz stands in this scene, in world units (default 280). */

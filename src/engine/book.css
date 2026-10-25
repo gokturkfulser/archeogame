@@ -1,7 +1,9 @@
 /* The old book overlay: open-book art with page contents laid over the two blank pages. */
 .bk-overlay{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:12px;background:rgba(10,8,34,.82);animation:bk-fade .35s ease both}
 @keyframes bk-fade{from{opacity:0}}
-.bk-stage{position:relative;width:min(96vw,calc((100vh - 76px)*1.505));aspect-ratio:1500/997;animation:bk-rise .6s cubic-bezier(.2,1,.3,1) both}
+.bk-stage{position:relative;width:min(96vw,calc((100vh - 76px)*1.505));aspect-ratio:1500/997;perspective:2200px;animation:bk-rise .6s cubic-bezier(.2,1,.3,1) both}
+.bk-overlay.handoff,.bk-overlay.handoff .bk-stage{animation:none}
+.bk-overlay.handoff{animation:bk-fade .25s ease both}
 @keyframes bk-rise{from{transform:translateY(24px) rotate(-1.2deg) scale(.96);opacity:0}}
 .bk-book{position:absolute;inset:0;width:100%;height:100%;display:block;filter:drop-shadow(0 18px 40px rgba(0,0,0,.6));user-select:none;-webkit-user-drag:none}
 /* page areas are measured on the open-book image */
@@ -31,3 +33,38 @@
 .bk-count{color:#e8d6b4;font-size:15px;min-width:5ch;text-align:center}
 @media (prefers-reduced-motion:reduce){.bk-overlay,.bk-stage{animation:none}}
 @media (max-height:520px){.bk-nav{margin-top:6px}.bk-nav button{padding:6px 12px;font-size:14px}.bk-stage{width:min(96vw,calc((100vh - 52px)*1.505))}}
+
+/* G3: the cover, the turning leaf, the ink, the wax seal and the lifting bee */
+.bk-leaf{position:absolute;top:0;width:50%;height:100%;z-index:5;transform-style:preserve-3d;pointer-events:none}
+.bk-leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.bk-leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none}
+.bk-leaf.cover,.bk-leaf.flip.fwd{left:50%;transform-origin:left center}
+.bk-leaf.flip.back{left:0;transform-origin:right center}
+.bk-leaf.cover .front{background:var(--closed-art) center/contain no-repeat;filter:drop-shadow(0 18px 40px rgba(0,0,0,.6))}
+.bk-leaf.cover .back{transform:rotateY(180deg);background:var(--open-art) 0 0/200% 100% no-repeat}
+.bk-leaf.flip.fwd .front{background:var(--open-art) 100% 0/200% 100% no-repeat}
+.bk-leaf.flip.fwd .back{transform:rotateY(180deg);background:var(--open-art) 0 0/200% 100% no-repeat}
+.bk-leaf.flip.back .front{background:var(--open-art) 0 0/200% 100% no-repeat}
+.bk-leaf.flip.back .back{transform:rotateY(180deg);background:var(--open-art) 100% 0/200% 100% no-repeat}
+.bk-leaf.flip .face::after{animation:bkShade .68s ease both}
+@keyframes bkShade{50%{background:linear-gradient(90deg,rgba(30,12,4,.38),rgba(30,12,4,.05) 60%,rgba(255,236,200,.12))}}
+/* pages carried on a leaf are placed inside half the stage */
+.bk-leaf .bk-page{top:7%;height:81%;width:78%}
+.bk-leaf .bk-fr{left:5%}
+.bk-leaf .bk-fl{left:16%}
+.bk-page{z-index:4}
+.ink{opacity:0;filter:blur(2px);transition:opacity .45s ease,filter .45s ease}
+.ink.on{opacity:1;filter:none}
+.bk-plate.bk-lift{animation:bkLift 1.9s .5s cubic-bezier(.3,0,.2,1) both}
+@keyframes bkLift{0%{transform:none}38%{transform:translateY(-9%) scale(1.07) rotate(-3deg)}56%{transform:translateY(-8%) translateX(2%) scale(1.07) rotate(2deg)}100%{transform:none}}
+.bk-plate.bk-newlit{animation:bkNew 1.4s ease-out both}
+@keyframes bkNew{0%{filter:brightness(2.2) drop-shadow(0 0 30px rgba(255,236,170,1))}}
+.bk-wax{position:relative;flex:none;display:inline-block;width:clamp(30px,4.6vw,62px);aspect-ratio:1}
+.bk-wax i{position:absolute;inset:0;border-radius:50% 46% 52% 48%;background:radial-gradient(circle at 38% 32%,#d8453a,#9c2620 55%,#6e1712);box-shadow:inset 0 0 0 clamp(2px,.4vw,5px) rgba(255,160,140,.18),0 2px 5px rgba(50,10,5,.5);transition:transform .7s cubic-bezier(.2,.9,.3,1),opacity .7s}
+.bk-wax i.l{clip-path:polygon(0 0,52% 0,46% 18%,55% 34%,45% 52%,54% 70%,47% 86%,52% 100%,0 100%)}
+.bk-wax i.r{clip-path:polygon(52% 0,100% 0,100% 100%,52% 100%,47% 86%,54% 70%,45% 52%,55% 34%,46% 18%)}
+.bk-wax b{position:absolute;inset:0;display:grid;place-items:center;font-weight:400;font-size:clamp(14px,2.1vw,28px);color:rgba(60,8,4,.55);text-shadow:0 1px 0 rgba(255,150,130,.25);transition:opacity .5s}
+.bk-wax.broken i.l{transform:translate(-26%,6%) rotate(-16deg);opacity:.55}
+.bk-wax.broken i.r{transform:translate(26%,-4%) rotate(14deg);opacity:.55}
+.bk-wax.broken b{opacity:0}
+@media (prefers-reduced-motion:reduce){.bk-plate.bk-lift,.bk-plate.bk-newlit{animation:none}.ink{transition:none;opacity:1;filter:none}.bk-wax i,.bk-wax b{transition:none}}

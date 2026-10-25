@@ -33,6 +33,9 @@ export const lamp = {
   lock: null as { x: number; y: number } | null,
 };
 
+/** Cinematic camera: `z` zoom around the world point (`x`, `y`), plus a shake offset. Everything in the stage is drawn through it. */
+export const cam = { z: 1, x: W / 2, y: H / 2, sx: 0, sy: 0 };
+
 /** Parallax view offset, -1..1 on each axis, eased towards the lamp. */
 export const view = { px: 0, py: 0 };
 

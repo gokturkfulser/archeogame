@@ -1,5 +1,5 @@
 /* The runtime: resize, render loop, scene switching and the title screen. */
-import { H, W, clamp, lamp, stage, view, wait } from './core';
+import { H, W, cam, clamp, lamp, stage, view, wait } from './core';
 import { audioInit, ambient, initMuteButton } from './audio';
 import { dot } from './paper';
 import { Layer, buildLayers, drawCover, drawLayer, freeLayers, loadImage, prefetch } from './layers';
@@ -8,7 +8,7 @@ import { bee, drawBee, updateBee, useMelissaImages } from './melissa';
 import { celebrate, debug as denizDebug, deniz, denizScaleFor, drawDeniz, placeDeniz, updateDeniz, useImageSkin } from './deniz';
 import { drawStag, drawStagGlow, placeStag, stag, updateStag, useKurundaImages } from './kurunta';
 import { bindGoalButtons, clearGoal } from './dialogue';
-import { closeCurtain, openCurtain } from './hud';
+import { closeCurtain, openCurtain } from './transition';
 import { initInput } from './input';
 import type { Scene } from './scene';
 
@@ -88,6 +88,11 @@ function render(sc: Scene) {
   g.globalCompositeOperation = 'source-over';
   g.globalAlpha = 1;
   g.setTransform(dpr * s, 0, 0, dpr * s, dpr * ox, dpr * oy);
+  if (cam.z !== 1 || cam.sx || cam.sy) {
+    g.translate(W / 2, H / 2);
+    g.scale(cam.z, cam.z);
+    g.translate(-cam.x + cam.sx, -cam.y + cam.sy);
+  }
   if (backImg) {
     drawCover(g, backImg);
     sc.backFx?.(g);
@@ -166,6 +171,7 @@ function setScene(i: number) {
     freeLayers(layersOf(scene));
   }
   backImg = null;
+  Object.assign(cam, { z: 1, x: W / 2, y: H / 2, sx: 0, sy: 0 });
   scene = scenes[i];
   buildAll();
   lamp.x = lamp.tx = scene.lamp0[0];
@@ -184,13 +190,23 @@ function setScene(i: number) {
   if (next) prefetch([...(next.assets ?? []), ...(next.backImage ? [next.backImage] : [])]);
 }
 
-/** Curtain closes, the next scene is set, the curtain opens and the scene starts. */
+/** The beam eases to the scene's point of interest; the pointer takes over again on the next move. */
+function aimAtFocus(sc: Scene) {
+  if (!sc.focus || lamp.lock) return;
+  lamp.tx = sc.focus[0];
+  lamp.ty = sc.focus[1];
+}
+
+/** Paper layers cover the stage, the next scene is set, the layers slide away and the scene starts. */
 export async function go(i: number) {
   clearGoal();
-  await closeCurtain();
+  // forward in the story slides left to right, back right to left, and a scene entered from nothing rises from below
+  const dir = scene && scenes.indexOf(scene) !== i ? (i > scenes.indexOf(scene) ? 'R' : 'L') : 'U';
+  await closeCurtain({ num: scenes[i].num, name: scenes[i].name }, dir);
   setScene(i);
   await wait(200);
   const sc = scene!;
+  aimAtFocus(sc);
   await openCurtain(sc.num, sc.name);
   void sc.enter();
 }
@@ -225,6 +241,7 @@ export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' = 
     const title = document.getElementById('title') as HTMLElement;
     title.classList.add('gone');
     setTimeout(() => (title.hidden = true), 700);
+    aimAtFocus(scene!);
     await openCurtain(scene!.num, scene!.name);
     void scene!.enter();
   });

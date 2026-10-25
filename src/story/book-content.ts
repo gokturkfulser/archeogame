@@ -1,7 +1,7 @@
 /* What is written in the old book. Shared by the hub (the book button) and the opening scene (where Deniz finds it).
    Pages show which coins have been found; cities that are not playable yet stay sealed. */
 import cities from '../hub/cities.json';
-import { Spread, plate } from '../engine/book';
+import { Spread, plate, waxSeal } from '../engine/book';
 import type { Progress } from '../engine/progress';
 
 export interface City {
@@ -46,9 +46,9 @@ const cap = (s: string) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
 function cityPage(c: City, p: Progress, big: boolean): string {
   const done = p.done.includes(c.id);
   const sealed = !c.playable && !done;
-  const state = done ? 'lit' : sealed ? 'ghost' : 'plain';
+  const state = done ? 'lit' : 'ghost';
   const status = done ? '<span class="bk-seal">Sikke tamamlandı</span>' : sealed ? '<span class="bk-seal">Bu sayfa henüz mühürlü</span>' : '';
-  return `${plate(c.id, state, !big)}<h2>${c.name}</h2><span class="kicker">${cap(ordinal(CITIES.indexOf(c) + 1))} perde</span><p>${TEASERS[c.id]}</p>${status}`;
+  return `${plate(c.id, state, !big)}${waxSeal(c.id, done)}<h2>${c.name}</h2><span class="kicker">${cap(ordinal(CITIES.indexOf(c) + 1))} perde</span><p>${TEASERS[c.id]}</p>${status}`;
 }
 
 export function bookSpreads(p: Progress): Spread[] {
@@ -63,7 +63,7 @@ export function bookSpreads(p: Progress): Spread[] {
   const efes = CITIES[0];
   const spreads: Spread[] = [
     intro,
-    { left: `${plate(efes.id, p.done.includes(efes.id) ? 'lit' : 'plain')}`, right: cityPage(efes, p, true).replace(/^<img[^>]*>/, '') },
+    { left: `${plate(efes.id, p.done.includes(efes.id) ? 'lit' : 'ghost')}`, right: cityPage(efes, p, true).replace(/^<img[^>]*>/, '') },
   ];
   const rest = CITIES.slice(1);
   for (let i = 0; i < rest.length; i += 2) {

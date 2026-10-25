@@ -1,9 +1,9 @@
 /* Başlangıç: Dedemin çalışma odası. Sweep the flashlight to find the old book hiding on the desk, open it, then go to the map. */
-import { Ctx, rv, stage, withPar } from '../../../engine/core';
-import { chime } from '../../../engine/audio';
+import { Ctx, lamp, par, rv, stage, withPar } from '../../../engine/core';
 import { openBook } from '../../../engine/book';
+import { bookDiscovery, coverTarget } from '../../../engine/cinematic/book-discovery';
+import { startCine } from '../../../engine/cinematic';
 import { clearGoal, dialogOpen, say, setGoal } from '../../../engine/dialogue';
-import { closeCurtain } from '../../../engine/hud';
 import { LayerSpec, loadImage } from '../../../engine/layers';
 import { skyFill } from '../../../engine/paper';
 import { markBookFound } from '../../../engine/progress';
@@ -22,6 +22,7 @@ export class Calisma implements Scene {
   name = TEXT.name;
   dark = 0.55;
   lamp0: [number, number] = [520, 520];
+  focus: [number, number] = [900, 430];
   ground = 862;
   /** Taller than the desk (its top is about 400 units above the floor). */
   denizHeight = 520;
@@ -32,6 +33,8 @@ export class Calisma implements Scene {
   private solve: (() => void) | null = null;
   private t0 = 0;
   private book: HTMLImageElement | null = null;
+  /** G2 takes the book off the desk: the painted copy stops being drawn. */
+  private lifted = false;
 
   back = (g: Ctx) => {
     skyFill(g, [
@@ -47,7 +50,7 @@ export class Calisma implements Scene {
 
   /** The book is only visible where the flashlight shines; a faint glint hints at it after a while. */
   after = (i: number, g: Ctx) => {
-    if (i !== 0 || !this.book) return;
+    if (i !== 0 || !this.book || this.lifted) return;
     const a = this.found ? 1 : rv(BX, BY, 210);
     const hintGlint = this.found ? 0 : Math.min(1, (stage.T - this.t0) / 25) * 0.55;
     withPar(g, 0.45, () => {
@@ -98,6 +101,7 @@ export class Calisma implements Scene {
 
   async enter() {
     this.found = false;
+    this.lifted = false;
     this.t0 = stage.T;
     loadImage('book/closed.webp').then((img) => (this.book = img)).catch(() => {});
     await say(TEXT.intro);
@@ -108,13 +112,29 @@ export class Calisma implements Scene {
     await new Promise<void>((r) => (this.solve = r));
     clearTimeout(auto);
     clearGoal();
-    chime();
+    // G2: dust, glinting coins, the clasp, the book floats to the camera
+    const cine = startCine();
+    lamp.lock = { x: BX, y: BY };
+    const o = par(0.45);
+    const flying = await bookDiscovery(
+      cine,
+      { x: stage.ox + (BX + o.x) * stage.s, y: stage.oy + (BY + o.y) * stage.s, w: BOOK_W * stage.s, rot: -0.1 },
+      () => {
+        this.lifted = true;
+        const t = coverTarget();
+        lamp.lock = { x: (t.x - stage.ox) / stage.s, y: (t.y - stage.oy) / stage.s };
+      },
+    );
+    this.lifted = true;
+    cine.end();
+    lamp.lock = null;
     await say(TEXT.found);
-    // the book opens: Deniz reads her grandfather’s note and the first page
-    await openBook(bookSpreads({ book: true, done: [] }));
+    // G3: the cover opens, Deniz reads her grandfather’s letter and the first page
+    await openBook(bookSpreads({ book: true, done: [], shown: [] }), { handoff: flying });
     markBookFound();
     await say(TEXT.afterBook);
-    await closeCurtain();
-    location.href = '/';
+    // G4: into the satchel, into the wall map, onto the paper map (no page load)
+    const { roomToMap } = await import('../../../engine/cinematic/room-to-map');
+    await roomToMap(this.ground, this.denizHeight);
   }
 }

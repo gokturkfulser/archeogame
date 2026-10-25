@@ -125,11 +125,13 @@ test('plays through Efes: lamp, melody, statues, shadows, finale', async ({ page
   await expect(page.locator('#card')).toBeVisible();
   await page.click('#cardGo');
 
-  /* ---- finale ---- */
+  /* ---- finale: Melissa's closing lines, then the act-ending film, skipped, then the map ---- */
   await readDialogue(page);
-  await expect(page.locator('#final')).toBeVisible();
-  await expect(page.locator('#coins')).toHaveAttribute('aria-label', 'Efes sikkesinin parçaları: 4 / 4');
-  await shot('12-final');
+  await expect(page.locator('.film-box')).toBeVisible({ timeout: 15_000 });
+  await shot('12-ending-film');
+  await page.waitForTimeout(3300); // the film ignores skip input for its first 3 seconds
+  await page.keyboard.press('Enter');
+  await page.waitForURL('**/', { timeout: 15_000 });
 
   expect(errors).toEqual([]);
 });

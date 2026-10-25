@@ -74,3 +74,9 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offse
 /* progress pill, top right, clear of the map border */
 .hub-title .count{position:fixed;right:calc(env(safe-area-inset-right,0px) + 18px);top:calc(env(safe-area-inset-top,0px) + 16px);margin:0;padding:6px 14px;border-radius:20px;background:rgba(20,16,50,.62);box-shadow:inset 0 0 0 1px rgba(243,197,106,.4);font-style:normal;color:var(--gold)}
 @media (max-height:520px){.hub-title .series{display:none}.hub-title h1{text-shadow:0 2px 10px rgba(8,6,30,1),0 0 18px rgba(8,6,30,.9)}}
+
+/* the journey: a house in Selçuk and a dotted path to Efes (G4) */
+.route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 3px rgba(20,8,40,.9))}
+.house{position:absolute;width:2.1cqw;min-width:18px;translate:-50% -65%;pointer-events:none;filter:drop-shadow(0 2px 3px rgba(20,8,40,.8))}
+.house svg{display:block;width:100%}
+.city.pulse button::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:2.5px solid var(--gold);animation:ping 1.8s ease-out infinite;pointer-events:none}

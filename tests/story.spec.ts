@@ -26,24 +26,22 @@ async function moveLampTo(page: Page, x: number, y: number) {
   }, [x, y]);
 }
 
-test('fresh visit: the map shows every city, all sealed until the book is found', async ({ page }, testInfo) => {
+test('fresh visit: the map sends a new player to the opening scene; with the book, every city is on it and the sealed ones stay shut', async ({ page }, testInfo) => {
   await page.goto('/');
   await page.evaluate(() => localStorage.clear());
-  await page.reload();
+  await page.goto('/');
+  await page.waitForURL('**/baslangic/');
+
+  await page.evaluate(() => localStorage.setItem('ppa.progress.v1', JSON.stringify({ book: true, done: [], shown: [] })));
+  await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('#cities .city')).toHaveCount(15);
-  await expect(page.locator('#startCard')).toBeVisible();
-  await expect(page.locator('#bookBtn')).toBeHidden();
   await page.waitForTimeout(400);
   await page.screenshot({ path: `tests/screenshots/${testInfo.project.name}/20-hub-fresh.png` });
 
   // a sealed city only shows a message
   await page.getByRole('button', { name: /Hierapolis/ }).click();
   await expect(page.locator('#toast')).toContainText('Hierapolis henüz açılmadı');
-  // Efes is playable but needs the book first
-  await page.getByRole('button', { name: /Efes:/ }).click();
-  await expect(page.locator('#toast')).toContainText('Önce eski kitabı bulmalısın');
-  expect(page.url()).not.toContain('/efes/');
 
   // markers sit on the map: Efes on the Aegean coast (left, a bit below the middle), Zeugma far to the right
   const pos = async (id: string) => page.locator(`.city[data-city="${id}"]`).evaluate((el) => ({ x: parseFloat((el as HTMLElement).style.left), y: parseFloat((el as HTMLElement).style.top) }));
@@ -112,9 +110,9 @@ test('opening scene: find the book with the flashlight, read it, land on the map
 });
 
 test('finishing Efes puts its coin on the map and in the book', async ({ page }, testInfo) => {
-  await page.goto('/');
+  await page.goto('/baslangic/');
   await page.evaluate(() => localStorage.setItem('ppa.progress.v1', JSON.stringify({ book: true, done: ['efes'] })));
-  await page.reload();
+  await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('.city.done')).toHaveCount(1);
   await expect(page.locator('#count')).toContainText('1 / 15');

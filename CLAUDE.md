@@ -100,3 +100,63 @@ Deniz is a jointed cut-paper puppet rigged in code: head, torso, upper arm, fore
 - The user handles all git operations himself. Never run git add, commit, stash, checkout, push, or similar; just say what changed.
 - Stop for the user's approval at the checkpoints named in a task (e.g. character sheet before generating anything else with Deniz).
 - After visual changes, take Playwright screenshots and look at them before saying a step is done.
+
+## Cinematics (whole game and every act)
+
+One visual grammar: papercut lightbox look, layered paper with parallax,
+backlit glow, perforated details, Karagöz-style puppet motion, and the curtain
+as the bookend (curtains open into a film, close at the end of one).
+
+Game-level cinematics:
+G1. Opening film "Dedenin Gölge Oyunu" (Remotion, 20–25 s, before the
+    prologue): a Karagöz shadow screen; Deniz's grandfather, as a silhouette
+    puppet, opens the old book; 15 animals leap out of its pages as paper
+    shadows, scatter over a paper map of Anatolia and each becomes a coin in its
+    city. The screen darkens, lightning flashes in the window, the power cuts,
+    and Deniz's flashlight clicks on: hand over straight into the prologue room.
+G2. Book discovery (in-engine): when the light first touches the book, dust
+    motes swirl, the 15 coins on the cover glint one by one in a ring, the clasp
+    clicks open, the book lifts off the desk and moves toward the camera.
+G3. Book UI animation (in-engine): the cover opens in 3D; pages turn with a
+    paper curl and sound; the grandfather's letter writes itself in ink; locked
+    pages carry a wax seal that cracks open when that city's coin is found; on
+    the Efes page the bee briefly lifts off the page and settles back.
+G4. Room to map transition (in-engine): Deniz puts the book in her satchel; the
+    camera pushes into the old wall map, which unfolds pop-up style into the
+    game's paper map; a dotted path draws from the house in Selçuk to Efes.
+    No hard page reload between prologue and map.
+G5. City selection (in-engine): the city's coin flips to show its animal, the
+    animal flies/runs/glides into the city and the camera follows, then the
+    act's title card.
+G6. Return to the map after an act: the new coin lands in its place, the city
+    lights up, and its book page's seal cracks.
+
+Per-act cinematics:
+1. Act opening (optional, 8–15 s): the place and mood as the curtain opens.
+2. Animal debut (required, 4–8 s): the first time the act's animal appears.
+3. Story beats (optional, 0–2 per act, 3–8 s): a big discovery or payoff.
+4. Act ending (required, 20–25 s): coin pieces gather into the city's coin,
+   it spins, Deniz holds it up with the animal, the coin settles on the paper
+   map, the city lights up, curtains close, the next act's name appears.
+   One shared template for every act.
+
+Which tool for which:
+- Remotion (in /video) for non-interactive films (G1, act openings, act
+  endings, beats that don't depend on the player). Shared components in
+  /video/src/components; each film is data-driven by props (city, coin pieces,
+  colours, map position, animal, next act).
+- In-engine (src/engine/cinematic) for anything that continues straight from
+  gameplay or reacts to game state (G2–G6, animal debuts): input locked,
+  gentle letterbox, camera push/pan, scripted puppet moves.
+- New images and motion clips come from Higgsfield: check my balance and the
+  expected cost, list what you'll generate, and wait for my OK.
+
+Every film: skippable ("Geç" button, tap or Enter); under prefers-reduced-motion
+show a key frame instead; 1920×1080 WebM (VP9) plus MP4 fallback for the game,
+1080×1920 vertical for social media; ≤ 2 MB per short clip, ≤ 5 MB per act
+ending or opening film; audio from our chimes and ambience; lazy-load only the
+next film. G1 plays once; afterwards it is available from the map.
+
+Each act keeps src/acts/<city>/cinematics.ts listing its films (type, beat,
+duration, tool, assets). When starting a new act, propose that list first and
+wait for my approval before building.

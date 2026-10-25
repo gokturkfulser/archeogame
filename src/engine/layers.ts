@@ -34,6 +34,11 @@ export type Layer = LayerSpec & {
   /** World rectangle `c` is drawn into. */
   at?: [number, number, number, number];
   sh?: HTMLCanvasElement | null;
+  /** Soft continuation of an image layer below the 900-unit frame, for viewports taller than 16:9. */
+  ext?: HTMLCanvasElement | null;
+  /** World height `ext` is drawn at, and where it starts: [x, y, w]. */
+  extH?: number;
+  extAt?: [number, number, number];
   gen?: number;
 };
 
@@ -123,6 +128,74 @@ function buildDrawn(L: Layer & DrawnLayer) {
   L.sh = shadowCanvas(L, (sg) => sg.drawImage(c, 0, 0, Math.ceil(c.width * SHADOW_SCALE), Math.ceil(c.height * SHADOW_SCALE)));
 }
 
+/** Number of world units of the art's bottom edge that get mirrored into the extension. */
+const MIRROR = 70;
+
+/**
+ * Continues an image layer downwards without smearing its last pixel row: a heavily blurred colour field made from
+ * the bottom band (so there are no vertical streaks), with the band mirrored on top of it and fading out, plus the
+ * same paper grain the drawn layers get.
+ */
+function bottomExtension(img: HTMLImageElement, rect: [number, number, number, number], extH: number): HTMLCanvasElement {
+  const { q } = stage;
+  const k = Math.min(q, 1);
+  const c = document.createElement('canvas');
+  c.width = Math.max(2, Math.ceil(rect[2] * k));
+  c.height = Math.max(2, Math.ceil(extH * k));
+  const g = c.getContext('2d')!;
+  const unit = img.naturalHeight / rect[3];
+  const band = Math.max(4, Math.round(MIRROR * unit));
+  const srcY = img.naturalHeight - band;
+
+  // colour field: bottom band averaged down to a tiny strip, then stretched (bilinear = smooth, no streaks)
+  const mid = document.createElement('canvas');
+  mid.width = 64;
+  mid.height = 4;
+  const mg = mid.getContext('2d')!;
+  mg.imageSmoothingQuality = 'high';
+  mg.drawImage(img, 0, srcY, img.naturalWidth, band, 0, 0, 64, 4);
+  const tiny = document.createElement('canvas');
+  tiny.width = 12;
+  tiny.height = 1;
+  const tg = tiny.getContext('2d')!;
+  tg.imageSmoothingQuality = 'high';
+  tg.drawImage(mid, 0, 0, 64, 4, 0, 0, 12, 1);
+  g.imageSmoothingEnabled = true;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(tiny, 0, 0, c.width, c.height);
+
+  // mirrored band, fading out
+  const mh = Math.min(c.height, Math.round(MIRROR * k));
+  const m = document.createElement('canvas');
+  m.width = c.width;
+  m.height = mh;
+  const mc = m.getContext('2d')!;
+  mc.imageSmoothingQuality = 'high';
+  mc.translate(0, mh);
+  mc.scale(1, -1);
+  mc.drawImage(img, 0, srcY, img.naturalWidth, band, 0, 0, c.width, mh);
+  mc.setTransform(1, 0, 0, 1, 0, 0);
+  mc.globalCompositeOperation = 'destination-in';
+  const fade = mc.createLinearGradient(0, 0, 0, mh);
+  fade.addColorStop(0, 'rgba(0,0,0,.9)');
+  fade.addColorStop(1, 'rgba(0,0,0,0)');
+  mc.fillStyle = fade;
+  mc.fillRect(0, 0, m.width, mh);
+  g.drawImage(m, 0, 0);
+  m.width = m.height = mid.width = mid.height = tiny.width = tiny.height = 0;
+
+  // a little darker towards the bottom, then paper grain on top
+  g.globalCompositeOperation = 'source-atop';
+  const dark = g.createLinearGradient(0, 0, 0, c.height);
+  dark.addColorStop(0, 'rgba(10,0,30,0)');
+  dark.addColorStop(1, 'rgba(10,0,30,.3)');
+  g.fillStyle = dark;
+  g.fillRect(0, 0, c.width, c.height);
+  g.fillStyle = g.createPattern(grain, 'repeat')!;
+  g.fillRect(0, 0, c.width, c.height);
+  return c;
+}
+
 async function buildImage(L: Layer & ImageLayer, gen: number) {
   const { Mx, My, q } = stage;
   const img = await loadImage(L.image);
@@ -141,6 +214,10 @@ async function buildImage(L: Layer & ImageLayer, gen: number) {
   } else {
     L.c = img;
     L.at = rect;
+  }
+  if (rect[1] + rect[3] >= H - 1) {
+    L.ext = bottomExtension(img, rect, (L.extH = My + 90));
+    L.extAt = [rect[0], rect[1] + rect[3], rect[2]];
   }
   if (L.d > 0.04) {
     L.sh = shadowCanvas(L, (sg, k) => {
@@ -167,6 +244,8 @@ export function freeLayers(layers: Layer[]) {
     L.gen = (L.gen ?? 0) + 1;
     if (L.c instanceof HTMLCanvasElement) L.c.width = L.c.height = 0;
     if (L.sh) L.sh.width = L.sh.height = 0;
+    if (L.ext) L.ext.width = L.ext.height = 0;
+    L.ext = null;
     L.c = null;
     L.sh = null;
     L.at = undefined;
@@ -188,11 +267,7 @@ export function drawLayer(g: Ctx, L: Layer, light: { x: number; y: number }) {
     g.globalAlpha = 1;
   }
   g.drawImage(L.c, L.at[0] + o.x, L.at[1] + o.y, L.at[2], L.at[3]);
-  if (L.c instanceof HTMLImageElement && L.at[1] + L.at[3] >= H - 1) {
-    // The viewport can show more than the 900-unit frame below the art: carry the last pixel rows down.
-    const ih = L.c.naturalHeight;
-    g.drawImage(L.c, 0, ih - 2, L.c.naturalWidth, 2, L.at[0] + o.x, L.at[1] + L.at[3] + o.y - 1, L.at[2], My + 60);
-  }
+  if (L.ext && L.extH && L.extAt) g.drawImage(L.ext, L.extAt[0] + o.x, L.extAt[1] + o.y - 1, L.extAt[2], L.extH);
 }
 
 /** Paints a backdrop image to cover the whole visible world (sky). */
