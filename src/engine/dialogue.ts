@@ -2,8 +2,8 @@
 import { RM, assetUrl } from './core';
 import { chirp, pluck } from './audio';
 
-/** n = narrator / instructions, m = Melissa, k = Kurunta, d = Deniz. */
-export type Speaker = 'n' | 'm' | 'k' | 'd';
+/** n = narrator / instructions, m = Melissa, k = Kurunta, a = Alyat, d = Deniz. */
+export type Speaker = 'n' | 'm' | 'k' | 'a' | 'd';
 /** Deniz's portrait expressions. */
 export type Mood = 'neutral' | 'happy' | 'surprised' | 'thinking';
 export interface Line {
@@ -30,6 +30,7 @@ const SPEAKERS: Record<Speaker, { name: string; svg: string; narr: boolean }> = 
   n: { name: '', svg: portraitImg('characters/flashlight.webp'), narr: true },
   m: { name: 'Melissa', svg: portraitImg('characters/portrait-melissa.webp'), narr: false },
   k: { name: 'Kurunta', svg: portraitImg('characters/portrait-kurunta.webp'), narr: false },
+  a: { name: 'Alyat', svg: portraitImg('characters/portrait-alyat.webp'), narr: false },
   d: { name: 'Deniz', svg: portraitImg('characters/portrait-deniz-neutral.webp'), narr: false },
 };
 const DENIZ_PORTRAIT: Record<Mood, string> = {
@@ -99,6 +100,7 @@ function showLine() {
     }, 24);
     if (L.w === 'm') chirp();
     else if (L.w === 'k') pluck(196, 0, 0.1, 0.7);
+    else if (L.w === 'a') pluck(147, 0, 0.12, 0.75);
   }
   nextBtn.textContent = q.i === q.lines.length - 1 ? 'Tamam' : 'Devam';
   nextBtn.focus({ preventScroll: true });

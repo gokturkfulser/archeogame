@@ -11,6 +11,7 @@ export default defineConfig({
         index: fileURLToPath(new URL('./index.html', import.meta.url)),
         efes: fileURLToPath(new URL('./efes/index.html', import.meta.url)),
         hattusa: fileURLToPath(new URL('./hattusa/index.html', import.meta.url)),
+        sardes: fileURLToPath(new URL('./sardes/index.html', import.meta.url)),
         baslangic: fileURLToPath(new URL('./baslangic/index.html', import.meta.url)),
       },
     },

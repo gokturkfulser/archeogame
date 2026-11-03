@@ -1,0 +1,97 @@
+{
+ "tail": {
+  "file": "characters/alyat/tail.webp",
+  "w": 189,
+  "h": 305,
+  "pivot": [
+   144,
+   288
+  ]
+ },
+ "torso": {
+  "file": "characters/alyat/torso.webp",
+  "w": 362,
+  "h": 172,
+  "pivot": [
+   178,
+   91
+  ],
+  "hipJ": [
+   46,
+   46
+  ],
+  "shoulderJ": [
+   320,
+   69
+  ],
+  "neck": [
+   334,
+   46
+  ],
+  "tailJ": [
+   16,
+   55
+  ]
+ },
+ "head": {
+  "file": "characters/alyat/head.webp",
+  "w": 226,
+  "h": 335,
+  "pivot": [
+   40,
+   192
+  ]
+ },
+ "legF": {
+  "file": "characters/alyat/legF.webp",
+  "w": 130,
+  "h": 223,
+  "pivot": [
+   50,
+   19
+  ],
+  "foot": [
+   62,
+   217
+  ]
+ },
+ "legFBack": {
+  "file": "characters/alyat/legFBack.webp",
+  "w": 130,
+  "h": 223,
+  "pivot": [
+   50,
+   19
+  ],
+  "foot": [
+   62,
+   217
+  ]
+ },
+ "legH": {
+  "file": "characters/alyat/legH.webp",
+  "w": 137,
+  "h": 212,
+  "pivot": [
+   44,
+   16
+  ],
+  "foot": [
+   92,
+   203
+  ]
+ },
+ "legHBack": {
+  "file": "characters/alyat/legHBack.webp",
+  "w": 137,
+  "h": 212,
+  "pivot": [
+   44,
+   16
+  ],
+  "foot": [
+   92,
+   203
+  ]
+ }
+}

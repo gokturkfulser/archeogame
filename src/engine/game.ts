@@ -7,6 +7,7 @@ import { drawBeam } from './flashlight';
 import { bee, drawBee, updateBee, useMelissaImages } from './melissa';
 import { celebrate, debug as denizDebug, deniz, denizScaleFor, drawDeniz, placeDeniz, updateDeniz, useImageSkin } from './deniz';
 import { drawStag, drawStagGlow, placeStag, stag, updateStag, useKurundaImages } from './kurunta';
+import { drawLion, drawLionGlow, lion, placeLion, updateLion, useAlyatImages } from './alyat';
 import { bindGoalButtons, clearGoal } from './dialogue';
 import { renderPaused } from './render-gate';
 import { closeCurtain, openCurtain } from './transition';
@@ -123,6 +124,7 @@ function render(sc: Scene) {
   const dAfter = sc.denizAfter ?? layers.length - 2;
   if (dAfter < 0) {
     drawStag(g, sc.ground);
+    drawLion(g, sc.ground);
     drawDeniz(g, sc.ground, denizScale(sc));
   }
   layers.forEach((L, i) => {
@@ -130,6 +132,7 @@ function render(sc: Scene) {
     sc.after?.(i, g);
     if (i === dAfter) {
       drawStag(g, sc.ground);
+      drawLion(g, sc.ground);
       drawDeniz(g, sc.ground, denizScale(sc));
     }
   });
@@ -144,6 +147,7 @@ function render(sc: Scene) {
     g.fillRect(-Mx - 80, -My - 80, W + 2 * Mx + 160, H + 2 * My + 160);
   }
   drawStagGlow(g, sc.ground);
+  drawLionGlow(g, sc.ground);
   g.globalCompositeOperation = 'screen';
   {
     const gr = g.createRadialGradient(lamp.x, lamp.y, 0, lamp.x, lamp.y, 270);
@@ -197,6 +201,7 @@ function loop(now: number) {
     updateDeniz(dt);
     updateBee(dt);
     updateStag(dt);
+    updateLion(dt);
     scene.update?.(dt);
     if (!renderPaused()) render(scene);
   }
@@ -219,6 +224,7 @@ function setScene(i: number) {
   placeDeniz();
   placeHotspots();
   if (stag.on) placeStag();
+  if (lion.on) placeLion();
   if (bee.on) {
     bee.x = lamp.x + 120;
     bee.y = lamp.y - 120;
@@ -254,10 +260,11 @@ export async function go(i: number) {
 export { placeHotspots };
 
 /** `intro` runs once the player has pressed the start button (so sound is allowed) and before the first scene opens. */
-export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' = 'melissa', opts: { intro?: () => Promise<void> } = {}) {
+export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' | 'alyat' = 'melissa', opts: { intro?: () => Promise<void> } = {}) {
   scenes = list;
   useImageSkin();
   if (guide === 'kurunta') useKurundaImages();
+  else if (guide === 'alyat') useAlyatImages();
   else useMelissaImages();
   actName = act;
   let rz = 0;
@@ -293,6 +300,7 @@ export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' = 
       scene: () => scene,
       go,
       stag,
+      lion,
       lamp,
       deniz,
       celebrate,

@@ -406,6 +406,49 @@ JOBS.push({
   },
 });
 
+/** Alyat (Sardes guide lion): head with mane, torso, front leg, hind leg, tail. Points are read off the 2000 px preview. */
+JOBS.push({
+  name: 'alyat-parts',
+  async run({ probe }) {
+    const img = await loadRGBA(join(SRC, 'sardes/alyat-parts2-1.png'));
+    cleanAlpha(img, 120, 220);
+    const { label, pieces } = findPieces(img, 12, 20000);
+    if (probe) return console.log(pieces.map((p) => ({ cx: Math.round(p.cx), cy: Math.round(p.cy), w: p.maxX - p.minX, h: p.maxY - p.minY })));
+    const W = img.w, H = img.h;
+    const top = pieces.filter((p) => p.cy < H * 0.5).sort((a, b) => a.cx - b.cx);
+    const bottom = pieces.filter((p) => p.cy >= H * 0.5).sort((a, b) => a.cx - b.cx);
+    if (top.length !== 3 || bottom.length !== 2) throw new Error(`expected 3+2 pieces, found ${top.length}+${bottom.length}`);
+    // the sheet reads left to right: tail, torso, head on top; front leg and hind leg below
+    const named = { tail: top[0], torso: top[1], head: top[2], legF: bottom[0], legH: bottom[1] };
+    const POINTS = {
+      head: { pivot: [1507, 496] },
+      torso: { pivot: [923, 372], hipJ: [595, 260], shoulderJ: [1275, 317], neck: [1310, 260], tailJ: [521, 283] },
+      tail: { pivot: [372, 751] },
+      legF: { pivot: [685, 588], foot: [714, 1079] },
+      legH: { pivot: [1265, 607], foot: [1384, 1071] },
+    };
+    const SCALE = 0.3;
+    const parts = {};
+    for (const [key, piece] of Object.entries(named)) {
+      const cut = await cutPiece(img, label, piece, SCALE);
+      await writeOut(`characters/alyat/${key}.webp`, cut.buf);
+      const entry = { file: `characters/alyat/${key}.webp`, w: cut.w, h: cut.h };
+      for (const [name, p] of Object.entries(POINTS[key])) entry[name] = pt(piece, cut, p);
+      parts[key] = entry;
+      if (key === 'legF' || key === 'legH') {
+        // the far legs are the same pieces, a little darker
+        const dark = await sharp(cut.buf).modulate({ brightness: 0.72, saturation: 0.9 }).webp({ quality: 88, alphaQuality: 92 }).toBuffer();
+        await writeOut(`characters/alyat/${key}Back.webp`, dark);
+        parts[key + 'Back'] = { ...entry, file: `characters/alyat/${key}Back.webp` };
+      }
+    }
+    await writeOut('characters/alyat/parts.json', Buffer.from(JSON.stringify(parts, null, 1)));
+    // dialogue portrait: the head with its mane, 384 px wide like the other portraits
+    const portrait = await cutPiece(img, label, named.head, 384 / (named.head.maxX - named.head.minX));
+    await writeOut('characters/portrait-alyat.webp', portrait.buf);
+  },
+});
+
 /** Single transparent sprite: clean, trim, resize to `width`. */
 function sprite(name, srcRel, outRel, width, opts = {}) {
   JOBS.push({
@@ -495,6 +538,12 @@ for (const id of ['efes', 'hattusa', 'gobeklitepe', 'catalhoyuk', 'troya', 'asso
 layer('baslangic-wall', 'baslangic/room-wall.png', 'baslangic/wall.webp', 1024, { q: 80 });
 layer('baslangic-mid', 'baslangic/room-mid.png', 'baslangic/mid.webp', 1024, { clean: [60, 180] });
 layer('baslangic-fg', 'baslangic/room-fg.png', 'baslangic/fg.webp', 1024, { clean: [60, 180] });
+
+/* ---------- Sardes (act 2 of the Ege stage) ---------- */
+for (const c of ['damla', 'aslan', 'boga', 'zimba', 'front', 'reverse']) sprite('sardes-coin-' + c, `sardes/coin-${c}.png`, `sardes/coin-${c}.webp`, 256);
+layer('sardes-paktolos-sky', 'sardes/paktolos-sky.png', 'sardes/paktolos-sky.webp', 1024, { q: 80 });
+for (const l of ['far', 'mid', 'near', 'fg']) layer(`sardes-paktolos-${l}`, `sardes/paktolos-${l}.png`, `sardes/paktolos-${l}.webp`, 1024, { clean: [60, 180] });
+layer('sardes-title', 'sardes/title.png', 'sardes/title.webp', 1080, { q: 84 });
 
 /* ---------- main ---------- */
 const args = process.argv.slice(2);

@@ -1,0 +1,209 @@
+{
+  "note": "Sardes (Kroisos’un Altını) originals. Alyat = the lion guide, named after King Alyattes. Every prompt carried the shared art direction (layered cut paper in a backlit lightbox crossed with Karagoz shadow theatre; palette indigo, lapis, turquoise, madder red, saffron, gold; no text). Layers are 21:9; far/mid/near/fg are transparent. Full prompt text is kept in the Higgsfield job history under the job id.",
+  "element": {
+    "name": "alyat-lion",
+    "id": "0cee09fd-8751-4b22-ad95-ee91b6d123ef",
+    "from": "alyat-A2-1.png"
+  },
+  "images": [
+    {
+      "file": "alyat-A.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "job": "d760bea9-00bd-4d19-bdef-fc450358c9ac",
+      "date": "2026-11-03",
+      "purpose": "Alyat character sheet, variant A (approved, then revised to an adult male face)"
+    },
+    {
+      "file": "alyat-B.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "job": "4eae89cd-1064-45e0-aeeb-b7b394b4f316",
+      "date": "2026-11-03",
+      "purpose": "Alyat character sheet, variant B (not used)"
+    },
+    {
+      "file": "alyat-A2-1.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "job": "1298aed0-c7f6-4c86-b3cf-43f225aa5bff",
+      "reference_job": "d760bea9-00bd-4d19-bdef-fc450358c9ac",
+      "date": "2026-11-03",
+      "purpose": "Alyat character sheet, adult male face (APPROVED); Higgsfield element alyat-lion"
+    },
+    {
+      "file": "alyat-A2-2.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "job": "f31eb3ac-115f-4996-a3da-2077856e1930",
+      "reference_job": "d760bea9-00bd-4d19-bdef-fc450358c9ac",
+      "date": "2026-11-03",
+      "purpose": "Alyat sheet A revised, variant 2 (not used)"
+    },
+    {
+      "file": "alyat-parts.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "4d101cce-47f2-4a99-a4f2-d38dfb4e9ba0",
+      "reference_job": "1298aed0-c7f6-4c86-b3cf-43f225aa5bff",
+      "date": "2026-11-03",
+      "purpose": "Alyat rig parts, first (too thin) version, replaced by alyat-parts2-1.png"
+    },
+    {
+      "file": "paktolos-sky.png",
+      "model": "gpt_image_2_5",
+      "quality": "high",
+      "resolution": "2k",
+      "job": "552592bd-8bff-4334-a4eb-57e1631d8bb3",
+      "date": "2026-11-03",
+      "purpose": "Scene 1 sky: dusk strata"
+    },
+    {
+      "file": "paktolos-far.png",
+      "model": "gpt_image_2_5",
+      "quality": "high",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "09951907-82a8-48c2-88f8-b030d495be93",
+      "date": "2026-11-03",
+      "purpose": "Scene 1 far: Bozdag ridges and the Sardis acropolis"
+    },
+    {
+      "file": "paktolos-mid.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "f992c626-ea9b-4e33-80c7-87af9edbd058",
+      "date": "2026-11-03",
+      "purpose": "Scene 1 mid: far riverbank with poplars"
+    },
+    {
+      "file": "paktolos-near.png",
+      "model": "gpt_image_2_5",
+      "quality": "high",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "0dd0d31c-dac3-4a85-818b-5142e1535030",
+      "date": "2026-11-03",
+      "purpose": "Scene 1 near: bank ground strip"
+    },
+    {
+      "file": "paktolos-fg.png",
+      "model": "gpt_image_2_5",
+      "quality": "high",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "320202df-6f5b-474e-bc3e-c08505a8c220",
+      "date": "2026-11-03",
+      "purpose": "Scene 1 fg: reeds, boulder, willow branches"
+    },
+    {
+      "file": "coin-damla.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "1k",
+      "background": "transparent",
+      "job": "5ecf0bf5-3a15-40a7-a3ec-3b4fd674d6fe",
+      "reference_job": "30599052-07d1-4cbd-a75b-78a9444a1c7d",
+      "date": "2026-11-03",
+      "purpose": "Coin piece: altın damla"
+    },
+    {
+      "file": "coin-aslan.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "1k",
+      "background": "transparent",
+      "job": "d6ea6844-5f1c-4bff-9135-79e2a1a1ad70",
+      "reference_job": "30599052-07d1-4cbd-a75b-78a9444a1c7d",
+      "date": "2026-11-03",
+      "purpose": "Coin piece: aslan başı"
+    },
+    {
+      "file": "coin-boga.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "1k",
+      "background": "transparent",
+      "job": "223b9478-eadd-4eaa-a510-70eaead21634",
+      "reference_job": "30599052-07d1-4cbd-a75b-78a9444a1c7d",
+      "date": "2026-11-03",
+      "purpose": "Coin piece: boğa"
+    },
+    {
+      "file": "coin-zimba.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "1k",
+      "background": "transparent",
+      "job": "162b530e-70aa-4d15-8924-8f0d85c1507a",
+      "reference_job": "30599052-07d1-4cbd-a75b-78a9444a1c7d",
+      "date": "2026-11-03",
+      "purpose": "Coin piece: zımba izi"
+    },
+    {
+      "file": "coin-front.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "1k",
+      "background": "transparent",
+      "job": "71fc9b97-1452-4f19-8917-df0be55bc49d",
+      "reference_job": "30599052-07d1-4cbd-a75b-78a9444a1c7d",
+      "date": "2026-11-03",
+      "purpose": "Finished coin front: lion and bull facing each other"
+    },
+    {
+      "file": "coin-reverse.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "1k",
+      "background": "transparent",
+      "job": "4e59f608-888f-4fd4-be5b-5039117f24ee",
+      "reference_job": "30599052-07d1-4cbd-a75b-78a9444a1c7d",
+      "date": "2026-11-03",
+      "purpose": "Finished coin back: punch marks"
+    },
+    {
+      "file": "title.png",
+      "model": "gpt_image_2",
+      "quality": "high",
+      "resolution": "2k",
+      "job": "a8544c8a-5128-4726-848d-04f3c17ca144",
+      "elements": [
+        "deniz-modern",
+        "alyat-lion"
+      ],
+      "date": "2026-11-03",
+      "purpose": "Title key art: Deniz and Alyat at the Paktolos"
+    },
+    {
+      "file": "alyat-parts2-1.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "21afb94d-1dfe-4a9b-be8e-acce96cc9699",
+      "reference_job": "1298aed0-c7f6-4c86-b3cf-43f225aa5bff",
+      "date": "2026-11-03",
+      "purpose": "Alyat rig parts, second version (USED: heavier build, deep torso, thick legs)"
+    },
+    {
+      "file": "alyat-parts2-2.png",
+      "model": "gpt_image_2_5",
+      "quality": "xhigh",
+      "resolution": "2k",
+      "background": "transparent",
+      "job": "0dcdd49e-5281-48b3-9e90-fe401d6ef0e6",
+      "reference_job": "1298aed0-c7f6-4c86-b3cf-43f225aa5bff",
+      "date": "2026-11-03",
+      "purpose": "Alyat rig parts, second version (not used)"
+    }
+  ]
+}
