@@ -5,6 +5,7 @@
    scene, replay) = rising from below. */
 import { RM, wait } from './core';
 import { paperSlide, woodKnock } from './audio';
+import { pauseRender } from './render-gate';
 
 export type Dir = 'R' | 'L' | 'U';
 
@@ -79,6 +80,7 @@ let layers: HTMLElement[] = [];
 let dir: Dir = 'R';
 let covering = false;
 let titled = false;
+let release: (() => void) | null = null;
 
 function ensureHost() {
   if (host) return;
@@ -146,6 +148,7 @@ export async function closeCurtain(next: { num: string; name: string } | undefin
     showScreen(next.num, next.name, 260, IN_MS[0] * 0.6);
   }
   await Promise.all(ins);
+  release = pauseRender(); // the stage is hidden now; it is drawn again just before the layers slide away
 }
 
 function showScreen(num: string, name: string, ms: number, delay = 0) {
@@ -168,7 +171,10 @@ export async function openCurtain(num: string, name: string) {
   } else if (!titled) {
     showScreen(num, name, RM ? 1 : 260);
   }
-  await wait(RM ? 300 : HOLD_MS);
+  await wait(RM ? 300 : HOLD_MS - 300);
+  release?.();
+  release = null;
+  await wait(RM ? 0 : 300);
   if (RM) {
     clear();
     return;

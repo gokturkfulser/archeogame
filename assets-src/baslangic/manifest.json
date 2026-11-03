@@ -29,6 +29,69 @@
    "purpose": "Opening scene: dust sheets and cobwebs foreground (transparent)",
    "resolution": "2k",
    "background": "transparent"
+  },
+  {
+   "file": "dede-A.png",
+   "job": "a4b19cca-0f94-4387-ac58-85257201c3df",
+   "purpose": "G1 opening film: the grandfather as a Karagöz hide puppet, seated, side profile, variant A (not used)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "dede-B.png",
+   "job": "6129d42d-d767-4f05-9f48-261b51469340",
+   "purpose": "G1 opening film: the grandfather as a Karagöz hide puppet, seated with the book, variant B (used; cut out by scripts/cut-g1.mjs)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "animals-1.png",
+   "job": "9f966298-f0d2-49a1-aeb0-f96da29697bb",
+   "purpose": "G1 opening film: animal puppets sheet 1 (bee, stag, fox, leopard, horse)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "animals-2.png",
+   "job": "b498ffe7-f68f-4c42-9648-be91309bd632",
+   "purpose": "G1 opening film: animal puppets sheet 2 (owl, dove, snake, lion, eagle)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "animals-3.png",
+   "job": "12c72b5b-f2a7-42be-b82f-179af84dcbcd",
+   "purpose": "G1 opening film: animal puppets sheet 3 (Pegasus, Kerberos puppy, caretta, donkey, dolphin)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "dede-C.png",
+   "job": "27bb7292-8a3b-49f3-a472-84557cd471d5",
+   "purpose": "G1 opening film: grandfather redone as a modern flat paper-cut figure in an armchair (variant C, used)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "dede-D.png",
+   "job": "6691d066-2062-4519-86e0-77a3af825f0d",
+   "purpose": "G1 opening film: grandfather, modern paper-cut, variant D (not used)",
+   "model": "nano_banana_pro",
+   "date": "2026-11-03",
+   "resolution": "2k"
+  },
+  {
+   "file": "dede-C-cut.png",
+   "job": "ecb9ea1f-81d2-4b75-a43a-762e03ce7682",
+   "purpose": "Higgsfield remove_background of dede-C.png (the white hair was lost by the local cut-out); this is the grandfather in the film",
+   "model": "image_background_remover",
+   "date": "2026-11-03"
   }
  ]
 }

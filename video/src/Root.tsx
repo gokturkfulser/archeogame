@@ -1,6 +1,7 @@
 import { Composition, Folder } from "remotion";
 import { ActEnding } from "./ActEnding/ActEnding";
 import { actEndingSchema, type ActEndingProps } from "./ActEnding/schema";
+import { OpeningFilm, openingSchema, type OpeningProps } from "./G1/OpeningFilm";
 import { KadesTreaty, kadesSchema, type KadesProps } from "./Beat/KadesTreaty";
 
 /* The act ending is one template: every city gets the same film, driven by these props (city, coin pieces, colours, map
@@ -21,7 +22,7 @@ const EFES: ActEndingProps = {
   mapX: 16.1,
   mapY: 63.2,
   nextNumber: "İkinci perde",
-  nextName: "Hattuşa",
+  nextName: "Sardes",
   backdrop: { sky: "img/kutuphane-sky.webp", mid: "img/kutuphane-mid.webp", fg: "img/kutuphane-fg.webp" },
   curtain: "#a8322a",
   glow: "#f3c56a",
@@ -41,8 +42,8 @@ const HATTUSA: ActEndingProps = {
   guide: "kurunta",
   mapX: 46.6,
   mapY: 37.2,
-  nextNumber: "Üçüncü perde",
-  nextName: "Göbeklitepe",
+  nextNumber: "Sekizinci perde",
+  nextName: "Çatalhöyük",
   backdrop: { sky: "img/h-yazili-sky.webp", mid: "img/h-yazili-mid.webp", fg: "img/h-yazili-fg.webp" },
   curtain: "#8c3a1c",
   glow: "#f0b45a",
@@ -60,9 +61,35 @@ const KADES: KadesProps = {
   backdrop: { sky: "img/h-yazili-sky.webp", mid: "img/h-yazili-mid.webp", fg: "img/h-yazili-fg.webp" },
 };
 
+/* G1: the opening film. The animals and where their cities lie on the paper map (percent of the map picture). */
+const ANIMALS: [string, string, string, number, number, number, number][] = [
+  ["ari", "efes", "ari", 478, 495, 16.1, 63.25],
+  ["geyik", "hattusa", "geyik", 417, 640, 46.62, 37.25],
+  ["tilki", "gobeklitepe", "tilki", 500, 469, 64.65, 72.25],
+  ["leopar", "catalhoyuk", "leopar", 608, 350, 39.12, 66.62],
+  ["at", "troya", "at", 537, 539, 11.49, 38],
+  ["baykus", "assos", "baykus", 358, 640, 11.91, 43.87],
+  ["guvercin", "afrodisias", "guvercin", 463, 640, 21.89, 66.12],
+  ["yilan", "bergama", "yilan", 360, 640, 15.43, 48.5],
+  ["aslan", "sardes", "aslan", 541, 640, 19.04, 56.37],
+  ["kartal", "nemrut", "kartal", 490, 640, 63.9, 62.75],
+  ["pegasus", "zeugma", "pegasus", 488, 640, 60.25, 74.38],
+  ["kerberos", "hierapolis", "kerberos", 519, 509, 23.56, 63.5],
+  ["caretta", "patara", "caretta", 545, 495, 24.4, 84.25],
+  ["esek", "gordion", "esek", 522, 622, 35.6, 41.88],
+  ["yunus", "phaselis", "yunus", 375, 600, 29.56, 81],
+];
+const OPENING: OpeningProps = {
+  animals: ANIMALS.map(([id, cityId, file, w, h, mapX, mapY]) => ({ id, image: `img/g1/${file}.webp`, plate: `img/g1/plate-${cityId}.webp`, w, h, mapX, mapY })),
+};
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Folder name="Game">
+        <Composition id="G1-Opening" component={OpeningFilm} schema={openingSchema} durationInFrames={720} fps={30} width={1920} height={1080} defaultProps={OPENING} />
+        <Composition id="G1-Opening-Vertical" component={OpeningFilm} schema={openingSchema} durationInFrames={720} fps={30} width={1080} height={1920} defaultProps={OPENING} />
+      </Folder>
       <Folder name="Beats">
         <Composition id="Beat-KadesTreaty" component={KadesTreaty} schema={kadesSchema} durationInFrames={210} fps={30} width={1920} height={1080} defaultProps={KADES} />
         <Composition id="Beat-KadesTreaty-Vertical" component={KadesTreaty} schema={kadesSchema} durationInFrames={210} fps={30} width={1080} height={1920} defaultProps={KADES} />

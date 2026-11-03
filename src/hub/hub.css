@@ -46,6 +46,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offse
 .hub-title{position:absolute;left:calc(env(safe-area-inset-left,0px) + 18px);top:calc(env(safe-area-inset-top,0px) + 14px);pointer-events:none;text-shadow:0 2px 12px rgba(8,6,30,.9)}
 .hub-title .series{margin:0;font-family:var(--display);color:var(--gold);letter-spacing:.1em;font-size:clamp(12px,1.7vw,18px)}
 .hub-title h1{margin:2px 0 0;font-family:var(--display);font-weight:400;color:#fff1d6;font-size:clamp(20px,3.6vw,46px);line-height:1.05}
+.hub-title .stage{margin:4px 0 0;font-family:var(--display);color:#f0dcb0;font-size:clamp(12px,1.5vw,18px)}
 .hub-title .count{margin:6px 0 0;font-style:italic;color:#f0dcb0;font-size:clamp(13px,1.6vw,19px)}
 
 #bookBtn{position:absolute;right:calc(env(safe-area-inset-right,0px) + 18px);bottom:calc(env(safe-area-inset-bottom,0px) + 16px);display:flex;flex-direction:column;align-items:center;gap:2px;width:clamp(64px,8vw,110px);padding:0;border:0;background:none;color:#fff1d6;cursor:pointer;text-shadow:0 2px 8px rgba(0,0,0,.9);font-size:clamp(13px,1.5vw,18px)}
@@ -63,6 +64,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offse
 
 #toast{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translate(-50%,-8px);max-width:min(560px,90vw);padding:9px 16px;border-radius:4px;background:var(--paper);color:var(--ink);font-size:clamp(15px,1.8vw,19px);box-shadow:0 8px 22px rgba(0,0,0,.45),inset 0 0 0 2px var(--paper-edge);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+.tiny.right{left:auto;right:calc(env(safe-area-inset-right,0px) + 150px)}
 .tiny{position:absolute;left:calc(env(safe-area-inset-left,0px) + 14px);bottom:calc(env(safe-area-inset-bottom,0px) + 10px);border:0;background:none;color:rgba(240,226,196,.7);font-size:14px;text-decoration:underline;cursor:pointer}
 #rotate{display:none;position:absolute;left:0;right:0;bottom:70px;text-align:center;margin:0;font-size:15px;color:var(--gold)}
 @media (orientation:portrait){#rotate{display:block}}

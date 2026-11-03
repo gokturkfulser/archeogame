@@ -2,6 +2,7 @@
    game’s mute button, and under prefers-reduced-motion a key frame is shown instead of the moving picture. */
 import './cinematic.css';
 import { duck, soundOn } from '../audio';
+import { pauseRender } from '../render-gate';
 
 /** Reduced motion shows a key frame instead of the film. `localStorage.setItem('ppa.motion', 'on')` overrides it (for testing). */
 const RM = (() => {
@@ -41,6 +42,7 @@ export function playFilm(src: FilmSource, armMs = 3000): Promise<void> {
     const finish = (force = false) => {
       if (done || (!force && performance.now() < armedAt)) return;
       done = true;
+      releaseRender();
       document.removeEventListener('keydown', onKey, true);
       video?.pause();
       duck(false);
@@ -64,6 +66,8 @@ export function playFilm(src: FilmSource, armMs = 3000): Promise<void> {
     box.onclick = () => finish();
 
     duck(true);
+    // the film covers the whole screen: the stage behind it need not be drawn meanwhile
+    const releaseRender = pauseRender();
     if (RM) {
       const img = document.createElement('img');
       img.className = 'film-video';
@@ -81,9 +85,11 @@ export function playFilm(src: FilmSource, armMs = 3000): Promise<void> {
     video.playsInline = true;
     video.muted = !soundOn();
     video.preload = 'auto';
+    // MP4 first: most machines decode H.264 in hardware, while VP9 in a WebM often runs on the processor and stutters.
+    // A browser without H.264 skips the MP4 source by itself and takes the WebM.
     for (const [url, type] of [
-      [src.webm, 'video/webm; codecs="vp9, vorbis"'],
       [src.mp4, 'video/mp4'],
+      [src.webm, 'video/webm; codecs="vp9, vorbis"'],
     ]) {
       const s = document.createElement('source');
       s.src = url;
@@ -91,13 +97,16 @@ export function playFilm(src: FilmSource, armMs = 3000): Promise<void> {
       video.append(s);
     }
     video.onended = () => finish(true);
-    let triedMp4 = false;
+    const tried = new Set<string>();
     video.onerror = () => {
       console.warn('[film] could not play', video?.error);
-      // a WebM that loads but cannot be decoded on this machine: fall back to the MP4
-      if (!triedMp4 && video && /\.webm/.test(video.currentSrc)) {
-        triedMp4 = true;
-        video.src = src.mp4;
+      // a file that loads but cannot be decoded on this machine: try the other format once
+      const now = video?.currentSrc ?? '';
+      const next = /\.mp4/.test(now) ? src.webm : src.mp4;
+      if (video && !tried.has(next)) {
+        tried.add(now);
+        tried.add(next);
+        video.src = next;
         void video.play().catch(() => finish(true));
         return;
       }

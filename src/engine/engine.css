@@ -108,13 +108,13 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 
 /* Scene transition (src/engine/transition.ts): cut-paper layers with punched ornaments, and a lit title screen */
 #trHost{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden}
-.tr-lay{position:absolute;will-change:transform;filter:drop-shadow(0 0 10px rgba(255,196,110,.4))}
+.tr-lay{position:absolute;will-change:transform}
 .tr-lay.h{top:0;bottom:0;left:-8%;width:116%}
 .tr-lay.v{left:0;right:0;top:-8%;height:116%}
 .tr-paper{position:absolute;inset:0}
 .tr-orn{position:absolute;inset:0;opacity:.85;
   -webkit-mask:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.2) 15%,#000 85%);mask:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.2) 15%,#000 85%)}
-.tr-fibre{position:absolute;inset:0;opacity:.2;mix-blend-mode:multiply;
+.tr-fibre{position:absolute;inset:0;opacity:.1;
   background:repeating-linear-gradient(80deg,rgba(0,0,0,.5) 0 1px,transparent 1px 5px),repeating-linear-gradient(170deg,rgba(0,0,0,.4) 0 1px,transparent 1px 7px)}
 #trScreen{position:fixed;left:50%;top:50%;z-index:21;width:min(68vw,760px);aspect-ratio:16/8;transform:translate(-50%,-50%);opacity:0;pointer-events:none;
   background:radial-gradient(ellipse at 50% 45%,#fff3cf 0,#f4d58c 55%,#d9a950 100%);border-radius:14px;

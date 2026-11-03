@@ -9,6 +9,7 @@ import { audioInit } from '../engine/audio';
 import { assetUrl } from '../engine/url';
 import { loadProgress, markShown, pendingReturn, resetProgress } from '../engine/progress';
 import { CITIES, bookSpreads } from '../story/book-content';
+import { REGIONS, regionOf, visibleRegions } from './regions';
 
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -20,6 +21,7 @@ const MARKUP = `
   <header class="hub-title">
     <p class="series">Perde Perde Anadolu</p>
     <h1>Kayıp Sikkelerin Peşinde</h1>
+    <p class="stage" id="stage"></p>
     <p class="count" id="count" aria-live="polite"></p>
   </header>
   <button id="bookBtn" hidden aria-label="Eski kitabı aç">
@@ -36,6 +38,7 @@ const MARKUP = `
   </section>
   <div id="toast" role="status" aria-live="polite"></div>
   <button id="reset" class="tiny" hidden>Baştan başla</button>
+  <button id="replayFilm" class="tiny right" hidden>Dedenin gölge oyununu izle</button>
   <p id="rotate">Telefonu yan çevirirsen harita büyür.</p>
   <div id="veil"></div>`;
 
@@ -82,7 +85,14 @@ export function mountHub(host: HTMLElement): Hub {
     setTimeout(() => (location.href = href), RM ? 30 : 560);
   }
 
+  // the route unrolls stage by stage: a stage shows once the one before it is finished (a finished city always shows)
+  const stages = visibleRegions(progress.done.filter((id) => id !== pending));
+  const stage = REGIONS[stages - 1];
+  $('stage').textContent = `${stages}. bölüm · ${stage.name}`;
+  $('stage').title = stage.intro;
+
   for (const c of CITIES) {
+    if (regionOf(c.id) >= stages && !progress.done.includes(c.id)) continue;
     const done = progress.done.includes(c.id) && c.id !== pending;
     const open = c.playable && progress.book && !done;
     const locked = !c.playable && !done;
@@ -136,6 +146,13 @@ export function mountHub(host: HTMLElement): Hub {
       void openBook(bookSpreads(loadProgress()));
     });
     $('reset').hidden = false;
+    const film = $<HTMLButtonElement>('replayFilm');
+    film.hidden = false;
+    film.addEventListener('click', async () => {
+      audioInit();
+      const m = await import('../engine/cinematic/opening-film');
+      await m.playOpeningFilm();
+    });
   } else {
     $('startCard').hidden = false;
     ($('startBtn') as HTMLAnchorElement).addEventListener('click', (e) => {

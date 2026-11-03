@@ -35,21 +35,25 @@ test('fresh visit: the map sends a new player to the opening scene; with the boo
   await page.evaluate(() => localStorage.setItem('ppa.progress.v1', JSON.stringify({ book: true, done: [], shown: [] })));
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator('#cities .city')).toHaveCount(15);
+  // the route unrolls: at the start only the first stage (Ege ve Kuzey: Efes, Sardes, Bergama, Assos, Troya) is on the map
+  await expect(page.locator('#cities .city')).toHaveCount(5);
+  await expect(page.locator('#stage')).toContainText('1. bölüm · Ege ve Kuzey');
   await page.waitForTimeout(400);
   await page.screenshot({ path: `tests/screenshots/${testInfo.project.name}/20-hub-fresh.png` });
 
   // a sealed city only shows a message
-  await page.getByRole('button', { name: /Hierapolis/ }).click();
-  await expect(page.locator('#toast')).toContainText('Hierapolis henüz açılmadı');
+  await page.getByRole('button', { name: /Sardes/ }).click();
+  await expect(page.locator('#toast')).toContainText('Sardes henüz açılmadı');
 
-  // markers sit on the map: Efes on the Aegean coast (left, a bit below the middle), Zeugma far to the right
+  // later stages are not on the map yet
+  await expect(page.locator('.city[data-city="hattusa"]')).toHaveCount(0);
+  await expect(page.locator('.city[data-city="zeugma"]')).toHaveCount(0);
+
+  // markers sit on the map: Efes on the Aegean coast (left, a bit below the middle)
   const pos = async (id: string) => page.locator(`.city[data-city="${id}"]`).evaluate((el) => ({ x: parseFloat((el as HTMLElement).style.left), y: parseFloat((el as HTMLElement).style.top) }));
   const efes = await pos('efes');
-  const zeugma = await pos('zeugma');
   const troya = await pos('troya');
   expect(efes.x).toBeLessThan(25);
-  expect(zeugma.x).toBeGreaterThan(55);
   expect(troya.y).toBeLessThan(efes.y); // Troya is north of Efes
 });
 
@@ -62,7 +66,10 @@ test('opening scene: find the book with the flashlight, read it, land on the map
   const shot = (name: string) => page.screenshot({ path: `tests/screenshots/${testInfo.project.name}/${name}.png` });
 
   await page.goto('/baslangic/');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => {
+    localStorage.clear();
+    localStorage.setItem('ppa.g1.seen', '1'); // the opening film has its own test below
+  });
   await page.reload();
   await page.waitForFunction(() => (window as any).__game);
   await page.evaluate(() => document.fonts.ready);
@@ -94,7 +101,7 @@ test('opening scene: find the book with the flashlight, read it, land on the map
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('#startCard')).toBeHidden();
   await expect(page.locator('#bookBtn')).toBeVisible();
-  await expect(page.locator('.city.open')).toHaveCount(2); // Efes and Hattuşa are playable
+  await expect(page.locator('.city.open')).toHaveCount(1); // only Efes is playable in the first stage
   await page.waitForTimeout(500);
   await shot('27-hub-book-found');
 
@@ -116,9 +123,37 @@ test('finishing Efes puts its coin on the map and in the book', async ({ page },
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('.city.done')).toHaveCount(1);
   await expect(page.locator('#count')).toContainText('1 / 15');
+  // Efes was the last playable city of its stage: the second stage (İç Anadolu) opens with Hattuşa
+  await expect(page.locator('#stage')).toContainText('2. bölüm · İç Anadolu');
+  await expect(page.locator('.city[data-city="hattusa"]')).toHaveCount(1);
+  await expect(page.locator('.city.open')).toHaveCount(1);
   await page.waitForTimeout(400);
   await page.screenshot({ path: `tests/screenshots/${testInfo.project.name}/28-hub-efes-done.png` });
   await page.locator('#bookBtn').click();
   await expect(page.locator('.bk-grid img.lit')).toHaveCount(1);
   await page.screenshot({ path: `tests/screenshots/${testInfo.project.name}/29-book-progress.png` });
+});
+
+test('opening film: plays once on the first visit, can be skipped, and does not come back', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/baslangic/');
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForFunction(() => (window as any).__game);
+  await page.click('#start');
+  await expect(page.locator('.film-box')).toBeVisible({ timeout: 10_000 });
+  await page.waitForTimeout(1800); // skip input is ignored for the first moments
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.film-box')).toHaveCount(0, { timeout: 5000 });
+  await page.waitForFunction(() => (window as any).__game.scene().name, null, { timeout: 8000 });
+  expect(await page.evaluate(() => localStorage.getItem('ppa.g1.seen'))).toBe('1');
+
+  // the second visit goes straight to the room
+  await page.reload();
+  await page.waitForFunction(() => (window as any).__game);
+  await page.click('#start');
+  await page.waitForTimeout(1500);
+  await expect(page.locator('.film-box')).toHaveCount(0);
+  expect(errors).toEqual([]);
 });

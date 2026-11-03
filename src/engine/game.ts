@@ -8,6 +8,7 @@ import { bee, drawBee, updateBee, useMelissaImages } from './melissa';
 import { celebrate, debug as denizDebug, deniz, denizScaleFor, drawDeniz, placeDeniz, updateDeniz, useImageSkin } from './deniz';
 import { drawStag, drawStagGlow, placeStag, stag, updateStag, useKurundaImages } from './kurunta';
 import { bindGoalButtons, clearGoal } from './dialogue';
+import { renderPaused } from './render-gate';
 import { closeCurtain, openCurtain } from './transition';
 import { initInput } from './input';
 import type { Scene } from './scene';
@@ -38,13 +39,31 @@ function buildAll() {
   }
 }
 
-function resize() {
+/* The stage is drawn on one canvas as big as the window, every frame. On a weak graphics card or a big (or full) screen
+   that is more than it can fill, so the canvas gets fewer pixels than the screen has, stretched back by CSS: it steps
+   down when frames come late and back up when there is room to spare. */
+const MIN_SCALE = 0.5;
+const MAX_BUFFER_PX = 3.2e6;
+let renderScale = 1;
+let slowMs = 16.7;
+let calm = 0;
+
+function applyBuffer() {
   const st = stage;
-  st.dpr = Math.min(window.devicePixelRatio || 1, 2);
-  st.cw = innerWidth;
-  st.ch = innerHeight;
+  st.dpr = Math.min(window.devicePixelRatio || 1, 2) * renderScale;
   st.cv.width = Math.round(st.cw * st.dpr);
   st.cv.height = Math.round(st.ch * st.dpr);
+}
+
+function resize() {
+  const st = stage;
+  st.cw = innerWidth;
+  st.ch = innerHeight;
+  const deviceDpr = Math.min(window.devicePixelRatio || 1, 2);
+  // never start above what a mid-range graphics card can fill at a steady 60
+  const full = st.cw * st.ch * deviceDpr * deviceDpr;
+  renderScale = Math.min(renderScale, full > MAX_BUFFER_PX ? Math.sqrt(MAX_BUFFER_PX / full) : 1);
+  applyBuffer();
   st.cv.style.width = st.cw + 'px';
   st.cv.style.height = st.ch + 'px';
   st.s = Math.min(st.cw / W, st.ch / H);
@@ -52,7 +71,7 @@ function resize() {
   st.oy = (st.ch - H * st.s) / 2;
   st.Mx = Math.ceil(Math.max(0, (st.cw / st.s - W) / 2) + 50);
   st.My = Math.ceil(Math.max(0, (st.ch / st.s - H) / 2) + 50);
-  st.q = Math.min(st.s * Math.min(st.dpr, 1.5), 2);
+  st.q = Math.min(st.s * Math.min(deviceDpr, 1.5), 2); // layer bitmaps do not follow the render scale, so they are not rebuilt when it changes
   const px = (W + 2 * st.Mx) * (H + 2 * st.My) * st.q * st.q;
   if (px > 6.5e6) st.q *= Math.sqrt(6.5e6 / px);
   if (scene) {
@@ -140,7 +159,27 @@ function render(sc: Scene) {
 }
 
 let last = performance.now();
+function tuneScale(rawMs: number) {
+  if (rawMs > 250) return; // a tab switch or a long pause, not a slow frame
+  slowMs = slowMs * 0.92 + rawMs * 0.08;
+  if (slowMs > 24 && renderScale > MIN_SCALE) {
+    renderScale = Math.max(MIN_SCALE, renderScale * 0.82);
+    applyBuffer();
+    slowMs = 16.7;
+    calm = 0;
+  } else if (slowMs < 13.5 && renderScale < 1) {
+    // only come back up after a long calm spell, so it does not flip between two sizes
+    if (++calm > 420) {
+      renderScale = Math.min(1, renderScale * 1.12);
+      applyBuffer();
+      slowMs = 16.7;
+      calm = 0;
+    }
+  } else calm = 0;
+}
+
 function loop(now: number) {
+  tuneScale(now - last);
   const dt = Math.min(0.05, (now - last) / 1000);
   last = now;
   stage.T += dt;
@@ -159,7 +198,7 @@ function loop(now: number) {
     updateBee(dt);
     updateStag(dt);
     scene.update?.(dt);
-    render(scene);
+    if (!renderPaused()) render(scene);
   }
   requestAnimationFrame(loop);
 }
@@ -214,7 +253,8 @@ export async function go(i: number) {
 /** Re-lays out hotspots after a puzzle changes them. */
 export { placeHotspots };
 
-export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' = 'melissa') {
+/** `intro` runs once the player has pressed the start button (so sound is allowed) and before the first scene opens. */
+export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' = 'melissa', opts: { intro?: () => Promise<void> } = {}) {
   scenes = list;
   useImageSkin();
   if (guide === 'kurunta') useKurundaImages();
@@ -237,10 +277,11 @@ export function boot(list: Scene[], act: string, guide: 'melissa' | 'kurunta' = 
 
   (document.getElementById('start') as HTMLButtonElement).addEventListener('click', async () => {
     audioInit();
-    ambient(scene!.ambience);
     const title = document.getElementById('title') as HTMLElement;
     title.classList.add('gone');
     setTimeout(() => (title.hidden = true), 700);
+    if (opts.intro) await opts.intro();
+    ambient(scene!.ambience);
     aimAtFocus(scene!);
     await openCurtain(scene!.num, scene!.name);
     void scene!.enter();

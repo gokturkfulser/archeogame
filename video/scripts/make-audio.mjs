@@ -192,3 +192,59 @@ write(
   }
   write('ambience.wav', x, 0.35);
 }
+
+/* ---- the opening film (G1): a wooden knock, paper pages, a storm, the power cut and the flashlight switch ---- */
+
+// a dull wooden knock
+write('knock.wav', reverb((() => { const x = buf(0.5); for (let i = 0; i < x.length; i++) { const t = i / SR; x[i] = (Math.sin(2 * Math.PI * (210 - 90 * t * 2) * t) * 0.8 + rnd() * 0.25 * Math.exp(-t * 90)) * Math.exp(-t * 16); } return x; })(), 0.35, 0.8));
+
+// pages turning: a few quick bands of dry noise
+write('pages.wav', (() => {
+  const parts = [0, 0.16, 0.34, 0.5].map((at, k) => {
+    const n = lowpass(highpass(noise(0.3), 1500 + k * 300), 5200, 3800);
+    return [n.map((v, i) => v * Math.sin(Math.PI * Math.min(1, i / SR / 0.28)) ** 2 * 0.5), at];
+  });
+  return mix(parts, 0.9);
+})());
+
+// the storm: a long low rumble with a sharp crack at the start
+write('thunder.wav', (() => {
+  const sec = 4.2;
+  const rumble = lowpass(noise(sec), 220, 70);
+  const crack = highpass(noise(0.5), 1200);
+  const x = buf(sec);
+  for (let i = 0; i < x.length; i++) {
+    const t = i / SR;
+    const env = Math.min(1, t / 0.35) * Math.exp(-Math.max(0, t - 0.35) * 0.9) * (0.75 + 0.25 * Math.sin(t * 7));
+    x[i] = rumble[i] * 2.2 * env + (t < 0.5 ? crack[i] * Math.exp(-t * 14) * 0.55 : 0);
+  }
+  return reverb(x, 0.3, 1.5);
+})());
+
+// rain on a window, to loop quietly under the storm
+write('rain.wav', (() => {
+  const sec = 6;
+  const x = lowpass(highpass(noise(sec), 900), 6500, 5000);
+  const fade = Math.floor(SR * 0.4);
+  for (let i = 0; i < fade; i++) { x[i] *= i / fade; x[x.length - 1 - i] *= i / fade; }
+  return x.map((v) => v * 0.5);
+})(), 0.5);
+
+// the power cut: the lamp’s hum falls away, then a heavy thunk
+write('powercut.wav', (() => {
+  const x = buf(1.6);
+  for (let i = 0; i < x.length; i++) {
+    const t = i / SR;
+    const hum = Math.sin(2 * Math.PI * (130 * Math.exp(-t * 3.2) + 28) * t) * Math.exp(-t * 3.2) * 0.5;
+    const thunk = t > 0.25 ? Math.sin(2 * Math.PI * 70 * (t - 0.25)) * Math.exp(-(t - 0.25) * 22) * 0.9 : 0;
+    x[i] = hum + thunk;
+  }
+  return x;
+})());
+
+// the flashlight switch: two crisp ticks
+write('switch.wav', reverb((() => {
+  const x = buf(0.4);
+  for (const at of [0, 0.07]) for (let i = 0; i < SR * 0.05; i++) { const t = i / SR; const o = Math.floor((at) * SR) + i; x[o] += (rnd() * 1.4 + Math.sin(2 * Math.PI * 2400 * t) * 0.5) * Math.exp(-t * 110); }
+  return x;
+})(), 0.25, 0.5));

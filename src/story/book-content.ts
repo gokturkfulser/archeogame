@@ -3,6 +3,7 @@
 import cities from '../hub/cities.json';
 import { Spread, plate, waxSeal } from '../engine/book';
 import type { Progress } from '../engine/progress';
+import { REGIONS } from '../hub/regions';
 
 export interface City {
   id: string;
@@ -15,6 +16,8 @@ export interface City {
   /** Where the coin sits relative to the true place, in map-width percent (dx right, dy down). */
   off: [number, number];
   playable: boolean;
+  /** Stage of the journey (see src/hub/regions.ts). */
+  region: string;
 }
 export const CITIES = cities as City[];
 
@@ -48,7 +51,8 @@ function cityPage(c: City, p: Progress, big: boolean): string {
   const sealed = !c.playable && !done;
   const state = done ? 'lit' : 'ghost';
   const status = done ? '<span class="bk-seal">Sikke tamamlandı</span>' : sealed ? '<span class="bk-seal">Bu sayfa henüz mühürlü</span>' : '';
-  return `${plate(c.id, state, !big)}${waxSeal(c.id, done)}<h2>${c.name}</h2><span class="kicker">${cap(ordinal(CITIES.indexOf(c) + 1))} perde</span><p>${TEASERS[c.id]}</p>${status}`;
+  const stage = REGIONS.find((r) => r.id === c.region)?.name;
+  return `${plate(c.id, state, !big)}${waxSeal(c.id, done)}<h2>${c.name}</h2><span class="kicker">${cap(ordinal(CITIES.indexOf(c) + 1))} perde${stage ? ` · ${stage}` : ''}</span><p>${TEASERS[c.id]}</p>${status}`;
 }
 
 export function bookSpreads(p: Progress): Spread[] {

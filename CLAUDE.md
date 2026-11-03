@@ -6,23 +6,34 @@ The look is a **layered papercut lightbox crossed with Karagöz shadow theatre**
 
 ## Acts (planned order)
 
+The order follows a real journey, in four stages (regions; ids and names in `src/hub/regions.ts`, each city's `region` in `src/hub/cities.json`):
+
+**1. Ege ve Kuzey** (from Efes up the Aegean coast)
 1. Efes (done: `src/acts/efes/`)
-2. Hattuşa (done: `src/acts/hattusa/`; guide stag **Kurunta**, named after the Hittite stag god; four scenes: Aslanlı Kapı raking light, Yerkapı tunnel, clay-tablet archive, Yazılıkaya with the Kadesh treaty)
-3. Göbeklitepe
-4. Çatalhöyük
+2. Sardes
+3. Bergama
+4. Assos
 5. Troya
-6. Assos
-7. Afrodisias
-8. Bergama
-9. Sardes
+
+**2. İç Anadolu**
+6. Gordion
+7. Hattuşa (done: `src/acts/hattusa/`; guide stag **Kurunta**, named after the Hittite stag god; four scenes: Aslanlı Kapı raking light, Yerkapı tunnel, clay-tablet archive, Yazılıkaya with the Kadesh treaty). Hittites before-or-after Gordion's Phrygians: the Phrygians came after the Hittite collapse, Troya (Wilusa) appears in Hittite texts.
+8. Çatalhöyük (its coin sits above the true place on the map so it reads as inland, away from the Aegean coast)
+
+**3. Güneydoğu Anadolu**
+9. Göbeklitepe
 10. Nemrut
 11. Zeugma
-12. Hierapolis
-13. Patara
-14. Gordion
-15. Phaselis
 
-Aspendos, Side and Sagalassos are out. Order after Efes is not final.
+**4. Akdeniz ve eve dönüş** (Taurus coast, then back below Efes)
+12. Phaselis
+13. Patara
+14. Hierapolis
+15. Afrodisias
+
+Aspendos, Side and Sagalassos are out.
+
+On the map a stage appears once the one before it is finished (every *playable* city of it has its coin); one stage further is shown as a sealed preview once all playable cities are done. Inside a stage the cities can be played in any order. Finished cities always stay visible. Rule: `visibleRegions()` in `src/hub/regions.ts`. When a new act becomes playable, set `"playable": true` in cities.json; the stage gate then waits for it.
 
 ## Deniz and her tools
 
